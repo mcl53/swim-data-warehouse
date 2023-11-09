@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: file_match_date
+    description: The match date information for each file loaded
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - file_name
+            - loaded_datetime
+    columns:
+      - name: file_name
+        description: '{{ doc("file_name") }}'
+        tests:
+          - not_null
+
+      - name: match_start_date
+        description: The start date of the match
+        tests:
+          - not_null
+
+      - name: match_end_date
+        description: The end date of the match
+        tests:
+          - not_null
+
+      - name: loaded_datetime
+        description: '{{ doc("loaded_datetime") }}'
+        tests:
+          - not_null

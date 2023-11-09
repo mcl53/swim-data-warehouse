@@ -1,0 +1,32 @@
+name: 'swim_data_warehouse_dbt'
+version: '1.0.0'
+config-version: 2
+
+profile: 'swim_data_warehouse_dbt'
+
+analysis-paths: ["analyses"]
+docs-paths:     ["docs"]
+macro-paths:    ["macros"]
+model-paths:    ["models"]
+seed-paths:     ["seeds"]
+snapshot-paths: ["snapshots"]
+test-paths:     ["tests"]
+
+clean-targets:
+  - "target"
+
+models:
+  dbt_artifacts:
+    +schema: artifacts
+
+  swim_analysis_dbt:
+    +materialized: table
+
+    isl_dw:
+      +schema: dw
+
+    isl_hand_written:
+      +schema: hand_written
+      +materialized: ephemeral
+
+on-run-end: "{{ dbt_artifacts.upload_results(results) }}"

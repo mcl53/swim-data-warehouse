@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: event_swimmer_count
+    description: The number of swimmers per type of event
+    columns:
+      - name: id
+        description: Integer ID for the row within this model
+
+      - name: is_skins_event
+        description: Flag for if the event is a skins event
+
+      - name: round
+        description: The round of the event
+
+      - name: swimmer_count
+        description: The number of swimmers that participate in the type of event

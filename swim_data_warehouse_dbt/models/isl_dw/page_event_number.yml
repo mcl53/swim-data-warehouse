@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: page_event_number
+    description: The event number for each page per file loaded
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - file_name
+            - page_number
+            - loaded_datetime
+    columns:
+      - name: file_name
+        description: '{{ doc("file_name") }}'
+        tests:
+          - not_null
+
+      - name: page_number
+        description: The page number from the loaded file
+        tests:
+          - not_null
+
+      - name: event_number
+        description: The event number for the event found on the given page of the given file
+        tests:
+          - not_null
+
+      - name: loaded_datetime
+        description: '{{ doc("loaded_datetime") }}'
+        tests:
+          - not_null

@@ -135,7 +135,6 @@
                 '{{ model.node.name }}', {# name #}
                 '{{ model.node.alias }}', {# alias #}
                 '{{ model.message | replace("'", "''") }}', {# message #}
-                '{{ tojson(model.adapter_response) | replace("'", "''") }}' {# adapter_response #}
             )
             {%- if not loop.last %},{%- endif %}
         {%- endfor %}
@@ -172,11 +171,6 @@
                 '{{ tojson(model.tags) }}', {# tags #}
                 '{{ tojson(model.config.meta) | replace("'","''") }}', {# meta #}
                 '{{ model.alias }}', {# alias #}
-                {%- if var('dbt_artifacts_exclude_all_results', false) %}
-                    null
-                {%- else %}
-                    '{{ tojson(model) | replace("'","''") }}' {# all_results #}
-                {%- endif %}
             )
             {%- if not loop.last %},{%- endif %}
         {%- endfor %}
@@ -218,7 +212,6 @@
                 '{{ model.node.name }}', {# name #}
                 '{{ model.node.alias }}', {# alias #}
                 '{{ model.message | replace("'", "''") }}', {# message #}
-                '{{ tojson(model.adapter_response) | replace("'", "''") }}' {# adapter_response #}
             )
             {%- if not loop.last %},{%- endif %}
         {%- endfor %}
@@ -251,11 +244,6 @@
                 '{{ seed.checksum.checksum }}', {# checksum #}
                 '{{ tojson(seed.config.meta) | replace("'","''") }}', {# meta #}
                 '{{ seed.alias }}', {# alias #}
-                {%- if var('dbt_artifacts_exclude_all_results', false) %}
-                    null
-                {%- else %}
-                    '{{ tojson(seed) | replace("'","''") }}' {# all_results #}
-                {%- endif %}
             )
             {%- if not loop.last %},{%- endif %}
         {%- endfor %}
@@ -297,7 +285,6 @@
                 '{{ model.node.name }}', {# name #}
                 '{{ model.node.alias }}', {# alias #}
                 '{{ model.message | replace("'", "''") }}', {# message #}
-                '{{ tojson(model.adapter_response) | replace("'", "''") }}' {# adapter_response #}
             )
             {%- if not loop.last %},{%- endif %}
         {%- endfor %}
@@ -369,11 +356,6 @@
                 '{{ source.identifier }}', {# identifier #}
                 '{{ source.loaded_at_field | replace("'","''") }}', {# loaded_at_field #}
                 '{{ tojson(source.freshness) | replace("'","''") }}', {# freshness #}
-                {%- if var('dbt_artifacts_exclude_all_results', false) %}
-                    null
-                {%- else %}
-                    '{{ tojson(source) | replace("'", "''") }}' {# all_results #}
-                {%- endif %}
             )
             {%- if not loop.last %},{%- endif %}
         {%- endfor %}
@@ -412,7 +394,6 @@
                 null, {# rows_affected not available in Databricks #}
                 {{ 'null' if test.failures is none else test.failures }}, {# failures #}
                 '{{ test.message | replace("'", "''") }}', {# message #}
-                '{{ tojson(test.adapter_response) | replace("'", "''") }}' {# adapter_response #}
             )
             {%- if not loop.last %},{%- endif %}
         {%- endfor %}
@@ -442,11 +423,6 @@
                 '{{ test.package_name }}', {# package_name #}
                 '{{ test.original_file_path | replace('\\', '\\\\') }}', {# test_path #}
                 '{{ tojson(test.tags) }}', {# tags #}
-                {% if var('dbt_artifacts_exclude_all_results', false) %}
-                    null
-                {% else %}
-                    '{{ tojson(test) | replace("'","''")  }}' {# all_fields #}
-                {% endif %}
             )
             {%- if not loop.last %},{%- endif %}
         {%- endfor %}

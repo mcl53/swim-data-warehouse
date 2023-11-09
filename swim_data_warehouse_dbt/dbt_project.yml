@@ -15,15 +15,16 @@ test-paths:     ["tests"]
 clean-targets:
   - "target"
 
+
 models:
+
   dbt_artifacts:
     +schema: artifacts
 
-  swim_analysis_dbt:
-    +materialized: table
-
+  swim_data_warehouse_dbt:
     isl_dw:
       +schema: dw
+      +materialized: table
 
     isl_hand_written:
       +schema: hand_written

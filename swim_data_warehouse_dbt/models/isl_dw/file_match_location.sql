@@ -18,7 +18,7 @@ WITH file_match_location_line_num AS
     SELECT
         file_name       AS file_name,
         page_number     AS page_number,
-        line_number + 1 AS event_num_line -- Use the line after the Season/Series info
+        line_number + 1 AS location_line -- Use the line after the Season/Series info
     FROM
         {{ ref('pdf_page_line_word') }}
     WHERE
@@ -43,7 +43,7 @@ WITH file_match_location_line_num AS
     ON
         raw.file_name       = location_line.file_name
     AND raw.page_number     = location_line.page_number
-    AND raw.line_number     = location_line.event_num_line
+    AND raw.line_number     = location_line.location_line
     WHERE
         raw.word <> ''
 )

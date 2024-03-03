@@ -3,5 +3,5 @@ version: 2
 sources:
   - name: isl_raw
     tables:
-      - name: pdf_page_word
-        description: Individual word loaded from raw PDF files, and metadata about the word.
+      - name: pdf_page
+        description: Full text extracted from one page of a PDF file

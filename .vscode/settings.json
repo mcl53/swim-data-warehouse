@@ -2,8 +2,8 @@
     "files.associations": {
         "*.sql": "jinja-sql"
     },
-    "python.defaultInterpreterPath": "${workspaceFolder}/swim_data_warehouse_venv/Scripts/python.exe",
-    "python.terminal.activateEnvInCurrentTerminal": true,
     "dbt.queryLimit": 500,
-    "dbt.enableNewQueryPanel": false
+    "dbt.enableNewQueryPanel": false,
+    "python.defaultInterpreterPath": "${workspaceFolder}/swim_data_warehouse_venv/Scripts/python.exe",
+    "python.terminal.activateEnvInCurrentTerminal": true
 }

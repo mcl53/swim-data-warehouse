@@ -1,3 +1,9 @@
+{{
+      config(
+        enabled = false
+        )
+}}
+
 SELECT
     file_name,
     page_number,

@@ -1,3 +1,9 @@
+{{
+      config(
+        enabled = false
+        )
+}}
+
 WITH pdf_table_rows AS
 (
     SELECT
@@ -20,8 +26,8 @@ WITH pdf_table_rows AS
     FROM
         isl_raw.pdf_page_word
     WHERE
-        file_name = '20191006_isl-indianapols-results-day-2-2.pdf'
-    AND ROUND(location_y, 5) < 564.51417
+        file_name = '20191027_isl_results_budapest_sunday.pdf' AND page_number > 6 AND
+        ROUND(location_y, 5) < 564.51417 -- Need to update these boundaries to be dynamic - don't work with budapest sunday
     AND ROUND(location_y, 5) > 99.99189
     WINDOW
         rows_per_page_top_down AS

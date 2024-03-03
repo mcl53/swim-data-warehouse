@@ -7,27 +7,21 @@ models:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - file_name
-            - loaded_datetime
     columns:
       - name: file_name
         description: '{{ doc("file_name") }}'
         tests:
           - not_null
 
-      - name: city
-        description: The city the match was held in
-        tests:
-          - not_null
-
-      - name: state
-        description: The state the match was held in. Only populated for US files.
-
-      - name: country_code
+      - name: country
         description: The 3 letter code for the country the match was held in.
         tests:
           - not_null
 
-      - name: loaded_datetime
-        description: '{{ doc("loaded_datetime") }}'
+      - name: state
+        description: The state the match was held in. Only populated for US matches.
+
+      - name: city
+        description: The city the match was held in.
         tests:
           - not_null

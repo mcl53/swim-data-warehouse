@@ -1,3 +1,9 @@
+{{
+      config(
+        enabled = false
+        )
+}}
+
 WITH skins_event_page_number AS
 (
     -- Skins races follow a different format, therefore these are selected here and the below transformations are done

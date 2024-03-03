@@ -1,3 +1,9 @@
+{{
+      config(
+        enabled = false
+        )
+}}
+
 WITH match_month_date AS
 (
     -- Dates always come in the format 'Month start - end' e.g. 'October 5 - 6'

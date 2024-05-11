@@ -1,8 +1,8 @@
 version: 2
 
 models:
-  - name: file_match_date
-    description: The match date information for each file loaded
+  - name: file_match_date_hand_written
+    description: The match date information for each file loaded (hand written)
     columns:
       - name: file_name
         description: '{{ doc("file_name") }}'

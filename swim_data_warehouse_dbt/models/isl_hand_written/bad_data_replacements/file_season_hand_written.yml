@@ -1,8 +1,8 @@
 version: 2
 
 models:
-  - name: file_season
-    description: The season year for each file loaded
+  - name: file_season_hand_written
+    description: The season year for each file loaded (hand written)
     columns:
       - name: file_name
         description: '{{ doc("file_name") }}'

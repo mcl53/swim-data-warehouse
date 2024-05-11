@@ -1,8 +1,8 @@
 SELECT
-    id::INT                 AS id,
-    is_skins_event::VARCHAR AS is_skins_event,
-    round::VARCHAR          AS round,
-    swimmer_count::INT      AS swimmer_count
+    CAST(id             AS INT    ) AS id,
+    CAST(is_skins_event AS VARCHAR) AS is_skins_event,
+    CAST(round          AS VARCHAR) AS round,
+    CAST(swimmer_count  AS INT    ) AS swimmer_count
 FROM
 (
     VALUES
@@ -12,4 +12,5 @@ FROM
     (3 , TRUE          , 'Round 2', 4            ),
     (4 , TRUE          , 'Final'  , 2            )
 )
-event_swimmer_count(id, is_skins_event, round, swimmer_count)
+event_swimmer_count
+    (id, is_skins_event, round, swimmer_count    )

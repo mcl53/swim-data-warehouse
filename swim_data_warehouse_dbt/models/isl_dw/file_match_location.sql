@@ -25,6 +25,7 @@ WITH file_match_location_line_num AS
         word        IN ('Season', 'Series')
     AND page_number =  1 -- Only use the first page in each file, as all subsequent pages will have the same info
 )
+
 , file_match_location_line_word AS
 (
     SELECT
@@ -47,6 +48,7 @@ WITH file_match_location_line_num AS
     WHERE
         raw.word <> ''
 )
+
 , file_match_country AS
 (
     SELECT
@@ -69,6 +71,7 @@ WITH file_match_location_line_num AS
                     word_number DESC
             )
 )
+
 , file_match_state AS
 (
     SELECT
@@ -85,6 +88,7 @@ WITH file_match_location_line_num AS
         location.word_number = country.word_number - 1 -- State is the word before country
     AND LEN(location.word)   = 2 -- Non-US matches do not have a state, so these will be filtered out here
 )
+
 , file_match_city AS
 (
     SELECT
@@ -105,6 +109,7 @@ WITH file_match_location_line_num AS
     GROUP BY
         location.file_name
 )
+
 SELECT
     country.file_name,
     country.country,
@@ -120,3 +125,13 @@ INNER JOIN
     file_match_city    city
 ON
     country.file_name = city.file_name
+
+UNION ALL
+
+SELECT
+    file_name,
+    country,
+    state,
+    city
+FROM
+    {{ ref('file_match_location_hand_written') }}

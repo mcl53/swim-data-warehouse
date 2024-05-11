@@ -14,6 +14,7 @@ WITH file_season_line_num AS
         word        IN ('Season', 'Series')
     AND page_number =  1
 )
+
 SELECT
     raw.file_name AS file_name,
     raw.word      AS season_year
@@ -27,3 +28,11 @@ AND raw.page_number = season_line.page_number
 AND raw.line_number = season_line.line_number
 WHERE
     raw.word_number = 1
+
+UNION ALL
+
+SELECT
+    file_name,
+    season_year
+FROM
+    {{ ref('file_season_hand_written') }}

@@ -8,7 +8,6 @@ models:
           combination_of_columns:
             - file_name
             - page_number
-            - loaded_datetime
     columns:
       - name: file_name
         description: '{{ doc("file_name") }}'
@@ -16,16 +15,11 @@ models:
           - not_null
 
       - name: page_number
-        description: The page number from the loaded file
+        description: '{{ doc("page_number") }}'
         tests:
           - not_null
 
       - name: event_number
         description: The event number for the event found on the given page of the given file
-        tests:
-          - not_null
-
-      - name: loaded_datetime
-        description: '{{ doc("loaded_datetime") }}'
         tests:
           - not_null

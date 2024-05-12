@@ -11,14 +11,14 @@ models:
           - not_null
 
       - name: country
-        description: The 3 letter code for the country the match was held in.
+        description: '{{ doc("country") }}'
         tests:
           - not_null
 
       - name: state
-        description: The state the match was held in. Only populated for US matches.
+        description: '{{ doc("state") }}'
 
       - name: city
-        description: The city the match was held in.
+        description: '{{ doc("city") }}'
         tests:
           - not_null

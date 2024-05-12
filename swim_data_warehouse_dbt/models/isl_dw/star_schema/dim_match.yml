@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: dim_match
+    description: Contains information about an ISL match
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - season_year
+            - match_start_date
+    columns:
+      - name: season_year
+        description: '{{ doc("season_year") }}'
+
+      - name: match_start_date
+        description: '{{ doc("match_start_date") }}'
+
+      - name: match_end_date
+        description: '{{ doc("match_end_date") }}'
+
+      - name: country
+        description: '{{ doc("country") }}'
+
+      - name: state
+        description: '{{ doc("state") }}'
+
+      - name: city
+        description: '{{ doc("city") }}'
+
+      - name: file_names
+        description: '{{ doc("file_names") }}'

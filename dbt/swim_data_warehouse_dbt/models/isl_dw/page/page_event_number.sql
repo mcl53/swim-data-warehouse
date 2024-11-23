@@ -31,3 +31,12 @@ AND word.page_number = event_line.page_number
 AND word.line_number = event_line.line_number
 WHERE
     word NOT IN ('Event', 'Number')
+
+UNION ALL
+
+SELECT
+    file_name,
+    page_number,
+    event_number
+FROM
+    {{ ref('page_event_number_hand_written') }}

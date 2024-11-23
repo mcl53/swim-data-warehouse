@@ -108,11 +108,11 @@ SELECT
     MAX(REPLACE(sex, '''s', ''))                 AS sex,
     STRING_AGG(distance, '' ORDER BY word_order) AS distance,
     STRING_AGG(stroke, ' ' ORDER BY word_order)  AS stroke,
+    STRING_AGG(round, ' ' ORDER BY word_order)   AS round,
     CASE
         WHEN MAX(skin) IS NOT NULL THEN TRUE
         ELSE                            FALSE
     END                                          AS is_skins_event,
-    STRING_AGG(round, ' ' ORDER BY word_order)   AS round,
     loaded_datetime                              AS loaded_datetime
 FROM
 (

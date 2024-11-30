@@ -6,11 +6,11 @@ models:
     columns:
       - name: file_name
         description: '{{ doc("file_name") }}'
-        tests:
+        data_tests:
           - unique
           - not_null
 
       - name: season_year
         description: The year that the season took place
-        tests:
+        data_tests:
           - not_null

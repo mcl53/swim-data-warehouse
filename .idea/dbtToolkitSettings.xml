@@ -83,7 +83,9 @@
         <option value="tests" />
       </list>
     </option>
+    <option name="dbtVersionMajor" value="1" />
+    <option name="dbtVersionMinor" value="8" />
     <option name="settingsDbtProjectDir" value="C:\Users\matth\Documents\Repositories\swim-data-warehouse\dbt\swim_data_warehouse_dbt" />
-    <option name="settingsDbtTargetDir" value="C:\Users\matth\.dbt" />
+    <option name="settingsDbtTargetDir" value="C:\Users\matth\Documents\Repositories\swim-data-warehouse\dbt\swim_data_warehouse_dbt\target" />
   </component>
 </project>

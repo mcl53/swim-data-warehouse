@@ -3,7 +3,7 @@ version: 2
 models:
   - name: page_event_type
     description: The event information for each page per file loaded
-    tests:
+    data_tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - file_name
@@ -12,17 +12,17 @@ models:
     columns:
       - name: file_name
         description: '{{ doc("file_name") }}'
-        tests:
+        data_tests:
           - not_null
 
       - name: page_number
         description: The page number from the loaded file
-        tests:
+        data_tests:
           - not_null
 
       - name: sex
         description: The sex for the event
-        tests:
+        data_tests:
           - not_null
           - accepted_values:
               values:
@@ -32,7 +32,7 @@ models:
 
       - name: distance
         description: The distance of the event
-        tests:
+        data_tests:
           - not_null
           - accepted_values:
               values:
@@ -44,7 +44,7 @@ models:
 
       - name: stroke
         description: The stroke for the event
-        tests:
+        data_tests:
           - not_null
           - accepted_values:
               values:
@@ -57,12 +57,12 @@ models:
 
       - name: is_skins_event
         description: Flag for if the event is a skins event
-        tests:
+        data_tests:
           - not_null
 
       - name: round
         description: The round of the event
-        tests:
+        data_tests:
           - not_null
           - accepted_values:
               values:
@@ -72,5 +72,5 @@ models:
 
       - name: loaded_datetime
         description: '{{ doc("loaded_datetime") }}'
-        tests:
+        data_tests:
           - not_null

@@ -6,16 +6,16 @@ models:
     columns:
       - name: file_name
         description: '{{ doc("file_name") }}'
-        tests:
+        data_tests:
           - unique
           - not_null
 
       - name: match_start_date
         description: '{{ doc("match_start_date") }}'
-        tests:
+        data_tests:
           - not_null
 
       - name: match_end_date
         description: '{{ doc("match_end_date") }}'
-        tests:
+        data_tests:
           - not_null

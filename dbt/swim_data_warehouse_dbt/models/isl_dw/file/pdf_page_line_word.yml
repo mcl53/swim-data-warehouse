@@ -5,7 +5,7 @@ models:
     description: |
       Contains one row per word for each line, for each page, for each pdf file loaded.
       Also excludes blank values from the output.
-    tests:
+    data_tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - file_name
@@ -15,22 +15,22 @@ models:
     columns:
       - name: file_name
         description: '{{ doc("file_name") }}'
-        tests:
+        data_tests:
           - not_null
 
       - name: page_number
         description: '{{ doc("page_number") }}'
-        tests:
+        data_tests:
           - not_null
 
       - name: line_number
         description: The line number from the loaded page
-        tests:
+        data_tests:
           - not_null
 
       - name: word_number
         description: The word number from the loaded line of text
-        tests:
+        data_tests:
           - not_null
 
       - name: word

@@ -3,7 +3,7 @@ version: 2
 models:
   - name: dim_match
     description: Contains information about an ISL match
-    tests:
+    data_tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - season_year

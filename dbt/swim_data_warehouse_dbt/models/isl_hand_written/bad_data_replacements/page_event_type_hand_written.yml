@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: page_event_type
+  - name: page_event_type_hand_written
     description: The event information for each page per file
     data_tests:
       - dbt_utils.unique_combination_of_columns:
@@ -15,7 +15,7 @@ models:
           - not_null
 
       - name: page_number
-        description: The page number from the loaded file
+        description: '{{ doc("page_number") }}'
         data_tests:
           - not_null
 

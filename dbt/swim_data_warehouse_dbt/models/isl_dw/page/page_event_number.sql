@@ -1,4 +1,5 @@
-WITH page_event_number_line_number AS (
+WITH page_event_number_line_number AS
+(
     SELECT
         file_name,
         page_number,

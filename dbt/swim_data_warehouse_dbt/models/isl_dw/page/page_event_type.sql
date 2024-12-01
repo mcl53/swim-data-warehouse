@@ -1,129 +1,103 @@
-{{
-      config(
-        enabled = false
-        )
-}}
-
-WITH skins_event_page_number AS
+WITH event_word AS
 (
-    -- Skins races follow a different format, therefore these are selected here and the below transformations are done
-    -- in 2 stages: all events except skins and then all skins events.
+    -- Pull out words relevant to the event type on each page
     SELECT
+        file_name               AS file_name,
+        page_number             AS page_number,
+        word                    AS word,
+        ROW_NUMBER() OVER (
+            PARTITION BY
+                file_name,
+                page_number
+            ORDER BY
+                word_number ASC
+        )                       AS word_order
+    FROM
+        {{ ref('pdf_page_line_word') }}
+    WHERE
+        line_number  = 2
+    AND word_number >= 6
+)
+, round_word_order_num AS
+(
+    -- Determine the last word that denotes the event distance,
+    -- and the first word that denotes the event round
+    SELECT
+        file_name                          AS file_name,
+        page_number                        AS page_number,
+        MAX(word_order) FILTER (
+            word LIKE '%0m'
+        )                                  AS last_distance_word_order_num,
+        COALESCE(
+            MIN(word_order) FILTER (
+                word IN ('Final', 'Round')
+            ),
+            MAX(word_order) + 1
+        )                                  AS first_round_word_order_num
+    FROM
+        event_word
+    GROUP BY
         file_name,
         page_number
-    FROM
-        {{ source('isl_raw', 'pdf_page_word') }}
-    WHERE
-        ROUND(location_y, 5) IN (701.40022, 745.61726)
-    AND word = 'Skin'
 )
-
-, standard_event_info AS
+, word_event_type AS
 (
+    -- The different parts of the event type may contain different numbers of words each.
+    -- However, they always follow the order of: Sex, Distance, Stroke, Round.
+    -- The first word is always the sex.
+    -- We then know the last word of the distance, therefore all words from the first to the last
+    -- distance word are to do with distance.
+    -- We also know the first round word, therefore the stroke words are between the last distance
+    -- word and the first round word.
+    -- All remaining words after the first round word are to do with the round.
     SELECT
-        pdf.file_name                                                                               AS file_name,
-        pdf.page_number                                                                             AS page_number,
-        pdf.word                                                                                    AS word,
-        ROW_NUMBER() OVER (PARTITION BY pdf.file_name, pdf.page_number ORDER BY pdf.location_x ASC) AS word_order,
-        COUNT(pdf.word) OVER (PARTITION BY pdf.file_name, pdf.page_number)                          AS num_words,
+        word.file_name   AS file_name,
+        word.page_number AS page_number,
+        word.word        AS word,
+        word.word_order  AS word_order,
         CASE
-            WHEN word_order = 1                                                      THEN 'sex'
-            -- The first set of conditions matches individual events. These are 5 words when the stroke is 'Individual Medley', and 4 words otherwise.
-            -- It also matches relay events where the distance is one word i.e. '4x100', these events also do not include the word 'Relay',
-            -- and as such act the same as individual events with 4 words.
-            -- The second set of conditions matches relay events where the distance is split over multiple words i.e. '4', 'x', '100m'.
-            -- These events all have 7 words, and are the only events where this is the case after filtering out skins events.
-            WHEN word_order =  2 AND num_words  IN (4, 5)
-              OR word_order >= 2 AND word_order <= 4      AND num_words = 7          THEN 'distance'
-            WHEN word_order > 2  AND word_order < 6       AND word_order < num_words THEN 'stroke'
-            WHEN word_order = 6                                                      THEN 'relay'
-            WHEN word_order = num_words                                              THEN 'round'
-        END                                                                                         AS event_info_type,
-        pdf.loaded_datetime                                                                         AS loaded_datetime
+            WHEN word.word_order  = 1                                      THEN 'sex'
+            WHEN word.word_order >  1
+             AND word.word_order <= round_num.last_distance_word_order_num THEN 'distance'
+            WHEN word.word_order >  round_num.last_distance_word_order_num
+             AND word.word_order <  round_num.first_round_word_order_num   THEN 'stroke'
+            WHEN word.word_order >= round_num.first_round_word_order_num   THEN 'round'
+        END              AS event_word_type
     FROM
-        {{ source('isl_raw', 'pdf_page_word') }} pdf
+        event_word           word
     LEFT JOIN
-        skins_event_page_number                  skin_page
+        round_word_order_num round_num
     ON
-        pdf.file_name   = skin_page.file_name
-    AND pdf.page_number = skin_page.page_number
-    WHERE
-        ROUND(location_y, 5)  IN (701.40022, 745.61726)
-    AND skin_page.page_number IS NULL -- Remove skins events
-)
-
-, skins_event_info AS
-(
-    SELECT
-        pdf.file_name                                                                               AS file_name,
-        pdf.page_number                                                                             AS page_number,
-        pdf.word                                                                                    AS word,
-        ROW_NUMBER() OVER (PARTITION BY pdf.file_name, pdf.page_number ORDER BY pdf.location_x ASC) AS word_order,
-        COUNT(pdf.word) OVER (PARTITION BY pdf.file_name, pdf.page_number)                          AS num_words,
-        CASE
-            WHEN word_order = 1 THEN 'sex'
-            WHEN word_order = 2 THEN 'distance'
-            WHEN word_order = 3 THEN 'stroke'
-            WHEN word_order = 4 THEN 'skin'
-            WHEN word_order = 5 THEN 'race'
-            WHEN word_order > 5 THEN 'round'
-        END                                                                                         AS event_info_type,
-        pdf.loaded_datetime                                                                         AS loaded_datetime
-    FROM
-        {{ source('isl_raw', 'pdf_page_word') }} pdf
-    INNER JOIN -- Limit to skins events only
-        skins_event_page_number                  skin_page
-    ON
-        pdf.file_name   = skin_page.file_name
-    AND pdf.page_number = skin_page.page_number
-    WHERE
-        ROUND(location_y, 5) IN (701.40022, 745.61726)
-)
-
-, all_event_type_info AS
-(
-    SELECT
-        file_name,
-        page_number,
-        word,
-        word_order,
-        event_info_type,
-        loaded_datetime
-    FROM
-        standard_event_info
-    UNION ALL
-    SELECT
-        file_name,
-        page_number,
-        word,
-        word_order,
-        event_info_type,
-        loaded_datetime
-    FROM
-        skins_event_info
+        word.file_name   = round_num.file_name
+    AND word.page_number = round_num.page_number
 )
 SELECT
-    file_name                                    AS file_name,
-    page_number                                  AS page_number,
-    MAX(REPLACE(sex, '''s', ''))                 AS sex,
-    STRING_AGG(distance, '' ORDER BY word_order) AS distance,
-    STRING_AGG(stroke, ' ' ORDER BY word_order)  AS stroke,
-    STRING_AGG(round, ' ' ORDER BY word_order)   AS round,
-    CASE
-        WHEN MAX(skin) IS NOT NULL THEN TRUE
-        ELSE                            FALSE
-    END                                          AS is_skins_event,
-    loaded_datetime                              AS loaded_datetime
-FROM
-(
+    file_name                                                         AS file_name,
+    page_number                                                       AS page_number,
+    FIRST(REPLACE(sex, '''s', '')) FILTER (sex IS NOT NULL)           AS sex,
+    STRING_AGG(distance,       ''  ORDER BY word_order ASC)           AS distance,
+    STRING_AGG(stroke,         ' ' ORDER BY word_order ASC)           AS stroke,
+    COALESCE(STRING_AGG(round, ' ' ORDER BY word_order ASC), 'Final') AS round
+FROM (
     PIVOT
-        all_event_type_info
+        word_event_type
     ON
-        event_info_type IN ('sex', 'distance', 'stroke', 'skin', 'round')
+        event_word_type IN ('sex', 'distance', 'stroke', 'round')
     USING
-        MAX(word)
+        FIRST(word)
 )
 GROUP BY
     file_name,
+    page_number
+
+UNION ALL
+
+SELECT
+    file_name,
     page_number,
-    loaded_datetime
+    sex,
+    distance,
+    stroke,
+    round
+FROM
+    {{ ref('page_event_type_hand_written') }}

@@ -51,7 +51,7 @@ for pdf_file in pdf_files:
 dataframe_to_insert = pandas.DataFrame(data_to_insert)
 
 # Insert data from pandas dataframe into the source table in duckDB
-duckdb.register("dataframe_to_insert", dataframe_to_insert)
+duckdb.register(view_name="dataframe_to_insert", python_object=dataframe_to_insert)
 
 database.execute("""
     INSERT INTO isl_raw.pdf_page
@@ -61,28 +61,26 @@ database.execute("""
         dataframe_to_insert;
 """)
 
-# Fix discrepencies in PDF data
-# database.execute("""
-#     UPDATE isl_raw.pdf_page
-#     SET
-#         word = REPLACE(word, 'Women''s', '')
-#     WHERE
-#         file_name = '20191012_13_11_naples-results-day-1_final.pdf'
-#     AND page_number = 7
-#     AND line_number = 2
-#     AND word_number = 5;
-
-#     UPDATE isl_raw.pdf_page
-#     SET
-#         word_number = word_number + 1
-#     WHERE
-#         file_name = '20191012_13_11_naples-results-day-1_final.pdf'
-#     AND page_number = 7
-#     AND line_number = 2
-#     AND word_number > 5;
-
-#     INSERT INTO isl_raw.pdf_page
-#     SELECT
-#         '20191012_13_11_naples-results-day-1_final.pdf' AS file_name,
-
-# """)
+# Fix discrepancies in PDF data
+database.execute("""
+    UPDATE isl_raw.pdf_page
+    SET
+        page_text = REPLACE(page_text, '19:28Women''s', '19:28 Women''s')
+    WHERE
+        file_name = '20191012_13_11_naples-results-day-1_final.pdf'
+    AND page_number = 7;
+    
+    UPDATE isl_raw.pdf_page
+    SET
+        page_text = REPLACE(page_text, '19:57Women''s', '19:57 Women''s')
+    WHERE
+        file_name = '20191012_13_11_naples-results-day-1_final.pdf'
+    AND page_number = 11;
+    
+    UPDATE isl_raw.pdf_page
+    SET
+        page_text = REPLACE(page_text, '20:27Women''s', '20:27 Women''s')
+    WHERE
+        file_name = '20191012_13_11_naples-results-day-1_final.pdf'
+    AND page_number = 15;
+""")

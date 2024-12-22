@@ -11,7 +11,7 @@ WITH file_match_date_line_num AS
         page_number     AS page_number,
         line_number + 2 AS match_date_line -- Use the line 2 after the Season/Series info
     FROM
-        isl_dw.pdf_page_line_word
+        {{ ref("pdf_page_line_word") }}
     WHERE
         word        IN ('Season', 'Series')
     AND page_number =  1 -- Only use the first page in each file, as all subsequent pages will have the same info
@@ -47,7 +47,7 @@ WITH file_match_date_line_num AS
                 raw.word_number ASC
         )                            AS word_order
     FROM
-        isl_dw.pdf_page_line_word raw
+        {{ ref("pdf_page_line_word") }} raw
     INNER JOIN
         file_match_date_line_num  date_line
     ON
@@ -95,7 +95,7 @@ PIVOT
         file_name
 )                        file_date
 INNER JOIN
-    isl_dw.file_season   season
+    {{ ref("file_season") }}   season
 ON
     file_date.file_name = season.file_name
 
@@ -106,4 +106,4 @@ SELECT
     match_start_date,
     match_end_date
 FROM
-    {{ ref('file_match_date_hand_written') }}
+    {{ ref("file_match_date_hand_written") }}

@@ -49,7 +49,7 @@ WITH file_match_date_line_num AS
     FROM
         {{ ref("pdf_page_line_word") }} raw
     INNER JOIN
-        file_match_date_line_num  date_line
+        file_match_date_line_num        date_line
     ON
         raw.file_name   = date_line.file_name
     AND raw.page_number = date_line.page_number
@@ -75,9 +75,9 @@ SELECT
         ),
         '%-d %B %Y')::DATE             AS match_end_date
 FROM
-    file_match_date_word date_word
+    file_match_date_word     date_word
 INNER JOIN
-    date_word_type       word_type
+    date_word_type           word_type
 ON
     date_word.word_order = word_type.word_order
 PIVOT
@@ -93,9 +93,9 @@ PIVOT
     -- 'word_order' is ambiguous. Presumably this statement is compiled to a more verbose version that causes this error.
     GROUP BY
         file_name
-)                        file_date
+)                            file_date
 INNER JOIN
-    {{ ref("file_season") }}   season
+    {{ ref("file_season") }} season
 ON
     file_date.file_name = season.file_name
 

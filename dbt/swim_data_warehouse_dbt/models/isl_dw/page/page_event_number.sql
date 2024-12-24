@@ -1,11 +1,26 @@
-WITH page_event_number_line_number AS
+{# page_event_number #}
+
+-- References
+
+WITH page_event_number_hand_written AS (
+    SELECT * FROM {{ ref("page_event_number_hand_written") }}
+)
+
+, pdf_page_line_word AS (
+    SELECT * FROM {{ ref("pdf_page_line_word") }}
+)
+
+-- Model
+
+, page_event_number_line_number AS
 (
+    -- The line number that contains Event information.
     SELECT
         file_name,
         page_number,
         line_number
     FROM
-        {{ ref('pdf_page_line_word') }}
+        pdf_page_line_word
     WHERE
         word = 'Event'
     -- The word 'Event' appears twice in all files, as both have a system event number and a sequential event number.
@@ -23,9 +38,9 @@ SELECT
     word.page_number       AS page_number,
     CAST(word.word AS INT) AS event_number
 FROM
-    {{ ref('pdf_page_line_word') }} word
+    pdf_page_line_word            word
 INNER JOIN
-    page_event_number_line_number   event_line
+    page_event_number_line_number event_line
 ON
     word.file_name   = event_line.file_name
 AND word.page_number = event_line.page_number
@@ -40,4 +55,4 @@ SELECT
     page_number,
     event_number
 FROM
-    {{ ref('page_event_number_hand_written') }}
+    page_event_number_hand_written

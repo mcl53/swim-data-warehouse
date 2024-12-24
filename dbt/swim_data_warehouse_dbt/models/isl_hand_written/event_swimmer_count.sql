@@ -1,3 +1,5 @@
+{# event_swimmer_count #}
+
 SELECT
     CAST(id             AS INT    ) AS id,
     CAST(is_skins_event AS VARCHAR) AS is_skins_event,

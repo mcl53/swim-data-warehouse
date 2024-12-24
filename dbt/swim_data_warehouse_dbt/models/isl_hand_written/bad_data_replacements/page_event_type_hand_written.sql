@@ -1,3 +1,5 @@
+{# page_event_type_hand_written #}
+
 SELECT
     CAST(file_name    AS VARCHAR) AS file_name,
     CAST(page_number  AS INTEGER) AS page_number,

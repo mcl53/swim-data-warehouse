@@ -1,15 +1,29 @@
+{# file_season #}
+
 ------------------------------------------------------------------------------------------------------------------------
 -- The line containing season information has words in the format '2019 ISL Season', where Season and Series are used
 -- interchangably. We only care about the year, therefore filter to the first word on this line.
 ------------------------------------------------------------------------------------------------------------------------
-WITH file_season_line_num AS
-(
+
+-- References
+
+WITH file_season_hand_written AS (
+    SELECT * FROM {{ ref("file_season_hand_written") }}
+)
+
+, pdf_page_line_word AS (
+    SELECT * FROM {{ ref("pdf_page_line_word") }}
+)
+
+-- Model
+WITH file_season_line_num AS (
+    -- The line number that matches season information can be found on the first page.
     SELECT
         file_name,
         page_number,
         line_number
     FROM
-        {{ ref('pdf_page_line_word') }}
+        pdf_page_line_word
     WHERE
         word        IN ('Season', 'Series')
     AND page_number =  1
@@ -35,4 +49,4 @@ SELECT
     file_name,
     season_year
 FROM
-    {{ ref('file_season_hand_written') }}
+    file_season_hand_written

@@ -1,24 +1,30 @@
+{# file_match_date #}
+
 ------------------------------------------------------------------------------------------------------------------------
--- This model identifies the line of the PDF that contains match date as the one 2 after the line containing
+-- Identifies the line of the PDF that contains match date as the one 2 after the line containing
 -- Season/Series info.
 -- This is always in the format ['Month Name', 'Start Date', '-', 'End Date']
 -- e.g. ['October', '5', '-', '6']
 ------------------------------------------------------------------------------------------------------------------------
-WITH file_match_date_line_num AS
-(
-    SELECT
-        file_name       AS file_name,
-        page_number     AS page_number,
-        line_number + 2 AS match_date_line -- Use the line 2 after the Season/Series info
-    FROM
-        {{ ref("pdf_page_line_word") }}
-    WHERE
-        word        IN ('Season', 'Series')
-    AND page_number =  1 -- Only use the first page in each file, as all subsequent pages will have the same info
+
+-- References
+
+WITH file_match_date_hand_written AS (
+    SELECT * FROM {{ ref("file_match_date_hand_written") }}
 )
 
-, date_word_type AS
-(
+, file_season AS (
+    SELECT * FROM {{ ref("file_season") }}
+)
+
+, pdf_page_line_word AS (
+    SELECT * FROM {{ ref("pdf_page_line_word") }}
+)
+
+-- Model
+
+, date_word_type AS (
+    -- The words required from the identified line of the PDF, and the order they appear in.
     SELECT
         CAST(word_type  AS VARCHAR) AS word_type,
         CAST(word_order AS INT    ) AS word_order
@@ -34,8 +40,21 @@ WITH file_match_date_line_num AS
         (word_type   , word_order)
 )
 
-, file_match_date_word AS
-(
+, file_match_date_line_num AS (
+    -- The line number that matches date information can be found on the first page.
+    SELECT
+        file_name       AS file_name,
+        page_number     AS page_number,
+        line_number + 2 AS match_date_line -- Use the line 2 after the Season/Series info
+    FROM
+        pdf_page_line_word
+    WHERE
+        word        IN ('Season', 'Series')
+    AND page_number =  1 -- Only use the first page in each file, as all subsequent pages will have the same info
+)
+
+, file_match_date_word AS (
+    -- All date related words from the file to be used to contruct start and end dates for a match.
     SELECT
         raw.file_name                AS file_name,
         raw.word                     AS word,
@@ -47,9 +66,9 @@ WITH file_match_date_line_num AS
                 raw.word_number ASC
         )                            AS word_order
     FROM
-        {{ ref("pdf_page_line_word") }} raw
+        pdf_page_line_word       raw
     INNER JOIN
-        file_match_date_line_num        date_line
+        file_match_date_line_num date_line
     ON
         raw.file_name   = date_line.file_name
     AND raw.page_number = date_line.page_number
@@ -75,16 +94,14 @@ SELECT
         ),
         '%-d %B %Y')::DATE             AS match_end_date
 FROM
-    file_match_date_word     date_word
+    file_match_date_word date_word
 INNER JOIN
-    date_word_type           word_type
+    date_word_type       word_type
 ON
     date_word.word_order = word_type.word_order
-PIVOT
-(
+PIVOT (
     FIRST(word)
-    FOR word_type IN
-    (
+    FOR word_type IN (
         'month_name' AS month_name,
         'start_date' AS start_date,
         'end_date'   AS end_date
@@ -93,9 +110,9 @@ PIVOT
     -- 'word_order' is ambiguous. Presumably this statement is compiled to a more verbose version that causes this error.
     GROUP BY
         file_name
-)                            file_date
+)                        file_date
 INNER JOIN
-    {{ ref("file_season") }} season
+    file_season          season
 ON
     file_date.file_name = season.file_name
 
@@ -106,4 +123,4 @@ SELECT
     match_start_date,
     match_end_date
 FROM
-    {{ ref("file_match_date_hand_written") }}
+    file_match_date_hand_written

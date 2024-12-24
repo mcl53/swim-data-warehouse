@@ -1,3 +1,5 @@
+{# pdf_page_line_word #}
+
 ------------------------------------------------------------------------------------------------------------------------
 -- The CTEs in this model both have a set of columns that are generated sequentially from the output of the previous
 -- column(s), with the first taking all the text on a page and splitting that into each line of text from the page,
@@ -19,8 +21,16 @@
 -- whereas this format seems to allow DuckDB to optimise the query with lazy evaluation, and so makes this much faster
 ------------------------------------------------------------------------------------------------------------------------
 
-WITH pdf_page_lines AS
-(
+-- Sources
+
+WITH isl_raw__pdf_page AS (
+    SELECT * FROM {{ source('isl_raw', 'pdf_page') }}
+)
+
+-- Model
+
+, pdf_page_lines AS (
+    -- Use multiple lateral aliases to split PDF page text into numbered lines, one row per line.
     SELECT
         file_name                           AS file_name,
         page_number                         AS page_number,
@@ -29,7 +39,7 @@ WITH pdf_page_lines AS
         MAP(line_nums, lines)               AS lines_map,
         UNNEST(MAP_ENTRIES(lines_map))      AS line_num_value
     FROM
-        {{ source('isl_raw', 'pdf_page') }}
+        isl_raw__pdf_page
     QUALIFY
         -- Limit here to the most recently loaded version of each file
         1 = ROW_NUMBER() OVER (
@@ -40,8 +50,8 @@ WITH pdf_page_lines AS
                     loaded_datetime DESC
             )
 )
-, pdf_page_line_words AS
-(
+, pdf_page_line_words AS (
+    -- Use multiple lateral aliases to split line text into numbered words, one row per word.
     SELECT
         file_name                               AS file_name,
         page_number                             AS page_number,
@@ -53,6 +63,7 @@ WITH pdf_page_lines AS
     FROM
         pdf_page_lines
 )
+
 SELECT
     file_name                      AS file_name,
     page_number                    AS page_number,

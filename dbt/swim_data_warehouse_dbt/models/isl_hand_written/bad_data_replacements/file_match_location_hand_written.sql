@@ -1,3 +1,5 @@
+{# file_match_location_hand_written #}
+
 SELECT
     CAST(file_name AS VARCHAR) AS file_name,
     CAST(country   AS VARCHAR) AS country,

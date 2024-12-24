@@ -1,3 +1,5 @@
+{# file_season_hand_written #}
+
 SELECT
     CAST(file_name   AS VARCHAR) AS file_name,
     CAST(season_year AS INT    ) AS season_year

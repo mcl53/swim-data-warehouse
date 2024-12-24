@@ -1,6 +1,19 @@
-WITH event_word AS
-(
-    -- Pull out words relevant to the event type on each page
+{# page_event_type #}
+
+-- References
+
+WITH page_event_type_hand_written AS (
+    SELECT * FROM {{ ref("page_event_type_hand_written") }}
+)
+
+, pdf_page_line_word AS (
+    SELECT * FROM {{ ref("pdf_page_line_word") }}
+)
+
+-- Model
+
+, event_word AS (
+    -- Pull out words relevant to the event type on each page.
     SELECT
         file_name               AS file_name,
         page_number             AS page_number,
@@ -13,21 +26,23 @@ WITH event_word AS
                 word_number ASC
         )                       AS word_order
     FROM
-        {{ ref('pdf_page_line_word') }}
+        pdf_page_line_word
     WHERE
         line_number  = 2
     AND word_number >= 6
 )
-, round_word_order_num AS
-(
-    -- Determine the last word that denotes the event distance,
-    -- and the first word that denotes the event round
+
+, round_word_order_num AS (
+    -- Determine the last word that denotes the event distance, and the first word that denotes the event round.
     SELECT
         file_name                          AS file_name,
         page_number                        AS page_number,
         MAX(word_order) FILTER (
             word LIKE '%0m'
         )                                  AS last_distance_word_order_num,
+        -- There are some instances where the round is omitted from the file. In this case we set the
+        -- first_round_word_order_num to be one greater than the maximum word number for the words used.
+        -- This can then still be used to calculate the boundary between stroke and round below.
         COALESCE(
             MIN(word_order) FILTER (
                 word IN ('Final', 'Round')
@@ -40,8 +55,8 @@ WITH event_word AS
         file_name,
         page_number
 )
-, word_event_type AS
-(
+
+, word_event_type AS (
     -- The different parts of the event type may contain different numbers of words each.
     -- However, they always follow the order of: Sex, Distance, Stroke, Round.
     -- The first word is always the sex.
@@ -71,6 +86,7 @@ WITH event_word AS
         word.file_name   = round_num.file_name
     AND word.page_number = round_num.page_number
 )
+
 SELECT
     file_name                                                         AS file_name,
     page_number                                                       AS page_number,
@@ -100,4 +116,4 @@ SELECT
     stroke,
     round
 FROM
-    {{ ref('page_event_type_hand_written') }}
+    page_event_type_hand_written

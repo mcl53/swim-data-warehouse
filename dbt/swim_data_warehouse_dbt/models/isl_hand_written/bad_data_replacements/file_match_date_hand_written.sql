@@ -1,3 +1,5 @@
+{# file_match_date_hand_written #}
+
 SELECT
     CAST(file_name        AS VARCHAR) AS file_name,
     CAST(match_start_date AS DATE   ) AS match_start_date,

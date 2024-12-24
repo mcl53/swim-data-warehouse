@@ -1,33 +1,47 @@
+{# file_match_location #}
+
 ------------------------------------------------------------------------------------------------------------------------
--- This model identifies the line of the PDF that contains match location as the one that follows the line containing
--- Season/Series info.
+-- Identifies the line of the PDF that contains match location as the one that follows the line containing Season/Series
+-- info.
 -- There can be a varying number of words that make up the location info, e.g. a city could be 2 words, such as
 -- 'Las Vegas'.
 -- Therefore, location information is identified as follows:
 -- 1. The final word in the location line is the 3 letter country code
---     * with the exception of Indianapolis match files, as the country code is not included in these at all
--- 2. The word before the country code is the US state if it is a US based match
---     * This is identified as where this word is 2 letters long
--- 3. All other words that are not the country or the state make up the city, which are concatenated together
+--     * with the exception of Indianapolis match files, as the country code is not included in these at all.
+-- 2. The word before the country code is the US state if it is a US based match.
+--     * This is identified as where this word is 2 letters long.
+-- 3. All other words that are not the country or the state make up the city, which are concatenated together.
 --
--- Each of the resultant CTEs from these steps then contains one value per file, and can then be joined
+-- Each of the resultant CTEs from these steps then contains one value per file, and can then be joined.
 ------------------------------------------------------------------------------------------------------------------------
 
-WITH file_match_location_line_num AS
-(
+-- References
+
+WITH file_match_location_hand_written AS (
+    SELECT * FROM {{ ref("file_match_location_hand_written") }}
+)
+
+, pdf_page_line_word AS (
+    SELECT * FROM {{ ref("pdf_page_line_word") }}
+)
+
+-- Model
+
+, file_match_location_line_num AS (
+    -- The line number that matches location information can be found on the first page.
     SELECT
         file_name       AS file_name,
         page_number     AS page_number,
         line_number + 1 AS location_line -- Use the line after the Season/Series info
     FROM
-        {{ ref('pdf_page_line_word') }}
+        pdf_page_line_word
     WHERE
         word        IN ('Season', 'Series')
     AND page_number =  1 -- Only use the first page in each file, as all subsequent pages will have the same info
 )
 
-, file_match_location_line_word AS
-(
+, file_match_location_line_word AS (
+    -- All location related words from the file.
     SELECT
         raw.file_name            AS file_name,
         raw.page_number          AS page_number,
@@ -38,7 +52,7 @@ WITH file_match_location_line_num AS
                       '(', ''),
                       ')', '')   AS word
     FROM
-        {{ ref('pdf_page_line_word') }} raw
+        pdf_page_line_word              raw
     INNER JOIN
         file_match_location_line_num    location_line
     ON
@@ -49,8 +63,8 @@ WITH file_match_location_line_num AS
         raw.word <> ''
 )
 
-, file_match_country AS
-(
+, file_match_country AS (
+    -- The country for all files.
     SELECT
         file_name                                       AS file_name,
         -- Indianapolis files do not have a country in the location info, and all other files do.
@@ -72,8 +86,8 @@ WITH file_match_location_line_num AS
             )
 )
 
-, file_match_state AS
-(
+, file_match_state AS (
+    -- The state for all US matches.
     SELECT
         location.file_name   AS file_name,
         location.word        AS state,
@@ -89,8 +103,8 @@ WITH file_match_location_line_num AS
     AND LEN(location.word)   = 2 -- Non-US matches do not have a state, so these will be filtered out here
 )
 
-, file_match_city AS
-(
+, file_match_city AS (
+    -- The city for all files.
     SELECT
         location.file_name                                               AS file_name,
         STRING_AGG(location.word, ' ' ORDER BY location.word_number ASC) AS city -- Concat city names with more than 1 word
@@ -134,4 +148,4 @@ SELECT
     state,
     city
 FROM
-    {{ ref('file_match_location_hand_written') }}
+    file_match_location_hand_written

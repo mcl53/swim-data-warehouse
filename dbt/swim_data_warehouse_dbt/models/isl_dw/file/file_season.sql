@@ -16,7 +16,8 @@ WITH file_season_hand_written AS (
 )
 
 -- Model
-WITH file_season_line_num AS (
+
+, file_season_line_num AS (
     -- The line number that matches season information can be found on the first page.
     SELECT
         file_name,

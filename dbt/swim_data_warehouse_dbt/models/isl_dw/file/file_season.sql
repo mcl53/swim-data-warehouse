@@ -34,7 +34,7 @@ SELECT
     raw.file_name AS file_name,
     raw.word      AS season_year
 FROM
-    isl_dw.pdf_page_line_word raw
+    pdf_page_line_word raw
 INNER JOIN
     file_season_line_num      season_line
 ON

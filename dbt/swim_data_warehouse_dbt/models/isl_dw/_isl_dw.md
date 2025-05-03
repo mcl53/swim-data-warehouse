@@ -1,7 +1,3 @@
-{% docs file_name %}
-The name of the file data was loaded from
-{% enddocs %}
-
 {% docs loaded_datetime %}
 The datetime that the file was loaded into the system
 {% enddocs %}
@@ -32,8 +28,4 @@ The state the match was held in. Only populated for US matches
 
 {% docs city %}
 The city the match was held in
-{% enddocs %}
-
-{% docs file_names %}
-A list of all the file names that contain data for the match
 {% enddocs %}

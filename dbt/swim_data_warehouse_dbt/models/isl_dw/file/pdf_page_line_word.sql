@@ -24,7 +24,7 @@
 -- Sources
 
 WITH isl_raw__pdf_page AS (
-    SELECT * FROM {{ source('isl_raw', 'pdf_page') }}
+    SELECT * FROM {{ source('raw', 'pdf_page') }}
 )
 
 -- Model

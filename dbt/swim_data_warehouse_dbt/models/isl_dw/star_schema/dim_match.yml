@@ -26,6 +26,3 @@ models:
 
       - name: city
         description: '{{ doc("city") }}'
-
-      - name: file_names
-        description: '{{ doc("file_names") }}'

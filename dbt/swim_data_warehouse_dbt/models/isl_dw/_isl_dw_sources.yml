@@ -1,7 +1,7 @@
 version: 2
 
 sources:
-  - name: isl_raw
+  - name: raw
     tables:
       - name: pdf_page
         description: Full text extracted from one page of a PDF file

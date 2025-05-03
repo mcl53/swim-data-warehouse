@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/dbt/swim_data_warehouse_dbt/dbt_packages/dbt_utils" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/dbt/swim_data_warehouse_dbt/models" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/dbt/swim_data_warehouse_dbt/models/isl_dw/file/file_season.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/load/swim_data_load/copy_to_pg.py" dialect="GenericSQL" />
+    <file url="PROJECT" dialect="GenericSQL" />
+  </component>
+</project>

@@ -85,7 +85,8 @@
     </option>
     <option name="dbtVersionMajor" value="1" />
     <option name="dbtVersionMinor" value="8" />
-    <option name="settingsDbtProjectDir" value="$PROJECT_DIR$/swim_data_venv/Lib/site-packages/dbt/include/starter_project" />
-    <option name="settingsDbtTargetDir" value="$PROJECT_DIR$/swim_data_venv/Lib/site-packages/dbt/include/starter_project/target" />
+    <option name="initialSettingsAreSet" value="true" />
+    <option name="settingsDbtProjectDir" value="$PROJECT_DIR$/dbt/swim_data_warehouse_dbt" />
+    <option name="settingsDbtTargetDir" value="$PROJECT_DIR$/dbt/swim_data_warehouse_dbt/target" />
   </component>
 </project>

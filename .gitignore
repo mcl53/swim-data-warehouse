@@ -162,5 +162,5 @@ cython_debug/
 # Python virtual environment
 swim_data_venv/*
 
-# DuckDB data file
+# Data files
 data/*

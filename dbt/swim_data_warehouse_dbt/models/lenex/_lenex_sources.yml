@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: raw
+    tables:
+      - name: lenex
+        description: |
+          Contents of a LENEX format data file converted to JSON. Details on the LENEX data format can be found at
+          https://wiki.swimrankings.net/images/6/62/Lenex_3.0_Technical_Documentation.pdf

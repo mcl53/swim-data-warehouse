@@ -1,0 +1,43 @@
+version: 2
+
+models:
+  - name: session
+    description: Details for a session within a swimming meet derived from a LENEX file.
+    data_test:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - meet_name
+            - session_number
+    columns:
+      - name: meet_name
+        description: '{{ doc("meet_name") }}'
+        data_tests:
+          - not_null
+
+      - name: session_number
+        description: The session number for the meet.
+        data_tests:
+          - not_null
+
+      - name: session_date
+        description: The date of the session.
+        data_tests:
+          - not_null
+
+      - name: session_start_time
+        description: The start time of the session in local time, on a 24h clock.
+        data_tests:
+          - not_null
+
+      - name: session_min_lane_number
+        description: The minimum lane number in the pool for the session.
+        data_tests:
+          - not_null
+
+      - name: session_max_lane_number
+        description: The maximum lane number in the pool for the meet.
+        data_tests:
+          - not_null
+
+      - name: session_events
+        description: JSON data on the events in the session.

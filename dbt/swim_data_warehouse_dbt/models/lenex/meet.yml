@@ -1,0 +1,47 @@
+version: 2
+
+models:
+  - name: meet
+    description: Details for a swimming meet derived from a LENEX file.
+    columns:
+      - name: file_name
+        description: '{{ doc("file_name") }}'
+        data_tests:
+          - unique
+          - not_null
+
+      - name: meet_name
+        description: '{{ doc("meet_name") }}'
+        data_tests:
+          - not_null
+
+      - name: meet_city
+        description: The city the meet was held in.
+        data_tests:
+          - not_null
+
+      - name: meet_country
+        description: The country the meet was held in.
+        data_tests:
+          - not_null
+
+      - name: pool_length
+        description: The length of the pool, e.g. LCM for Long Course Metres.
+        data_tests:
+          - not_null
+
+      - name: min_lane_number
+        description: The minimum lane number in the pool for the meet.
+        data_tests:
+          - not_null
+
+      - name: max_lane_number
+        description: The maximum lane number in the pool for the meet.
+        data_tests:
+          - not_null
+
+      - name: sessions
+        description: JSON data on the sessions of the meet from the originating LENEX file.
+
+      - name: clubs
+        description: JSON data on the clubs at the meet from the originating LENEX file.

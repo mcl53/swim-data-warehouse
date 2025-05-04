@@ -1,0 +1,42 @@
+version: 2
+
+models:
+  - name: heat
+    description: Details for an heat within an event derived from a LENEX file.
+    data_test:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - meet_name
+            - session_number
+            - event_id
+            - heat_id
+    columns:
+      - name: meet_name
+        description: '{{ doc("meet_name") }}'
+        data_tests:
+          - not_null
+
+      - name: session_number
+        description: '{{ doc("session_number") }}'
+        data_tests:
+          - not_null
+
+      - name: event_id
+        description: '{{ doc("event_id") }}'
+        data_tests:
+          - not_null
+
+      - name: heat_id
+        description: The ID number of the heat.
+        data_tests:
+          - not_null
+
+      - name: event_heat_number
+        description: The heat number within the event.
+        data_tests:
+          - not_null
+
+      - name: heat_start_time
+        description: The start time of the heat.
+        data_tests:
+          - not_null

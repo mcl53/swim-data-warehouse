@@ -3,7 +3,7 @@ version: 2
 models:
   - name: session
     description: Details for a session within a swimming meet derived from a LENEX file.
-    data_test:
+    data_tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - meet_name
@@ -15,7 +15,7 @@ models:
           - not_null
 
       - name: session_number
-        description: The session number for the meet.
+        description: '{{ doc("session_number") }}'
         data_tests:
           - not_null
 

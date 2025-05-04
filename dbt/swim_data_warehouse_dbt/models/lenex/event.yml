@@ -1,0 +1,69 @@
+version: 2
+
+models:
+  - name: event
+    description: Details for an event within a session derived from a LENEX file.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - meet_name
+            - session_number
+            - event_id
+    columns:
+      - name: meet_name
+        description: '{{ doc("meet_name") }}'
+        data_tests:
+          - not_null
+
+      - name: session_number
+        description: '{{ doc("session_number") }}'
+        data_tests:
+          - not_null
+
+      - name: event_id
+        description: '{{ doc("event_id") }}'
+        data_tests:
+          - not_null
+
+      - name: event_number
+        description: The number of the event. This is the same for all rounds of an event.
+        data_tests:
+          - not_null
+
+      - name: previous_event_id
+        description: The ID number of the previous round of the event. This is -1 for the first round of an event.
+        data_tests:
+          - not_null
+
+      - name: sex
+        description: The sex of the event.
+        data_tests:
+          - not_null
+
+      - name: event_round
+        description: The round of the event.
+        data_tests:
+          - not_null
+
+      - name: event_start_time
+        description: The start time of the event in local time, on a 24h clock.
+        data_tests:
+          - not_null
+
+      - name: distance
+        description: The distance of the event.
+        data_tests:
+          - not_null
+
+      - name: event_team_size
+        description: The team size for the event. Usually 1 for individual events, and 4 for relays.
+        data_tests:
+          - not_null
+
+      - name: stroke
+        description: The stroke of the event.
+        data_tests:
+          - not_null
+
+      - name: heats
+        description: JSON data on the heats in the event.

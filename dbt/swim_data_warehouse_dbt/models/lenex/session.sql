@@ -7,6 +7,7 @@ WITH meet AS (
 )
 
 -- Model
+
 , session_json AS (
     SELECT
         meet_name                                AS meet_name,

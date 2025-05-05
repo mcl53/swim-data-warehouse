@@ -37,8 +37,8 @@ SELECT
     CAST(entry->>'@heat'             AS INT ) AS event_heat_number,
     CAST(entry->>'@lane'             AS INT ) AS lane_number,
     CAST(
+        -- NT denotes No Time.
         CASE entry->>'@entrytime'
-            -- NT denotes No Time for an entry.
             WHEN 'NT' THEN NULL
             ELSE           entry->>'@entrytime'
         END

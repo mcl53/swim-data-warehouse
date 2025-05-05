@@ -40,7 +40,7 @@ models:
           - not_null
 
       - name: sex
-        description: The sex of the athlete.
+        description: '{{ doc("sex") }}'
         data_tests:
           - not_null
 

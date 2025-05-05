@@ -15,7 +15,7 @@ models:
           - not_null
 
       - name: club_name
-        description: The name of the club.
+        description: '{{ doc("club_name") }}'
         data_tests:
           - not_null
 

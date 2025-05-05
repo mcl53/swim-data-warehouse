@@ -38,6 +38,7 @@ SELECT
     event_id                         AS event_id,
     CAST(split->>'@distance' AS INT) AS split_distance,
     CAST(
+        -- NT denotes No Time.
         CASE split->>'@swimtime'
             WHEN 'NT' THEN NULL
             ELSE           split->>'@swimtime'

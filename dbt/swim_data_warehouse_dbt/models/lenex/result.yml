@@ -26,27 +26,21 @@ models:
           - not_null
 
       - name: event_place
-        description: |
-          The overall finishing position of the athlete in the event.
-          This is -1 where the athlete is not classified.
+        description: '{{ doc("event_place") }}'
         data_tests:
           - not_null
 
       - name: finish_time
-        description: The finishing time for the athlete in the event.
+        description: '{{ doc("finish_time") }}'
 
       - name: reaction_time
-        description: The reaction time of the athlete in the event.
+        description: '{{ doc("reaction_time") }}'
 
       - name: fina_points
         description: The FINA points score for the finishing time achieved by the athlete.
 
       - name: status
-        description: |
-          The status of the athlete's swim in the event.
-          Examples include:
-          - DNS -> Did Not Start
-          - DSQ -> Disqualified
+        description: '{{ doc("status") }}'
 
       - name: heat_id
         description: '{{ doc("heat_id") }}'
@@ -64,4 +58,4 @@ models:
           - not_null
 
       - name: splits
-        description: JSON data on the splits for the athlete in the event.
+        description: '{{ doc("splits") }}'

@@ -36,6 +36,7 @@ SELECT
     CAST(result->>'@eventid'          AS INT) AS event_id,
     CAST(result->>'@place'            AS INT) AS event_place,
     CAST(
+        -- NT denotes No Time.
         CASE result->>'@swimtime'
             WHEN 'NT' THEN NULL
             ELSE           result->>'@swimtime'

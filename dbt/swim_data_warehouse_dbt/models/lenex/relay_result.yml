@@ -1,0 +1,93 @@
+version: 2
+
+models:
+  - name: relay_result
+    description: Details for a relay team representing a club derived from a LENEX file.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - meet_name
+            - club_code
+            - event_id
+    columns:
+      - name: meet_name
+        description: '{{ doc("meet_name") }}'
+        data_tests:
+          - not_null
+
+      - name: club_code
+        description: '{{ doc("club_code") }}'
+        data_tests:
+          - not_null
+
+      - name: event_id
+        description: '{{ doc("event_id") }}'
+        data_tests:
+          - not_null
+
+      - name: club_name
+        description: '{{ doc("club_name") }}'
+        data_tests:
+          - not_null
+
+      - name: team_number
+        description: The number of the relay team for the club participating in the event.
+        data_tests:
+          - not_null
+
+      - name: event_place
+        description: '{{ doc("event_place") }}'
+        data_tests:
+          - not_null
+
+      - name: finish_time
+        description: '{{ doc("finish_time") }}'
+
+      - name: reaction_time
+        description: '{{ doc("reaction_time") }}'
+
+      - name: status
+        description: '{{ doc("status") }}'
+
+      - name: event_heat_number
+        description: '{{ doc("event_heat_number") }}'
+        data_tests:
+          - not_null
+
+      - name: lane_number
+        description: '{{ doc("lane_number") }}'
+        data_tests:
+          - not_null
+
+      - name: sex
+        description: '{{ doc("sex") }}'
+        data_tests:
+          - not_null
+
+      - name: maximum_age_total
+        description: |
+          The maximum total age of team members for the relay.
+          This is -1 where there is no age limit.
+        data_tests:
+          - not_null
+
+      - name: minimum_age
+        description: |
+          The minimum age of any individual athlete in the relay team.
+          This is -1 where there is no age limit.
+        data_tests:
+          - not_null
+
+      - name: maximum_age
+        description: |
+          The maximum age of any individual athlete in the relay team.
+          This is -1 where there is no age limit.
+        data_tests:
+          - not_null
+
+      - name: relay_positions
+        description: JSON data on the athletes in each position in the relay team.
+
+
+      - name: splits
+        description: '{{ doc("splits") }}'

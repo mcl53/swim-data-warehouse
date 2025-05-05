@@ -14,6 +14,14 @@ The heat number within the event.
 The ID number of the event. This is unique per round of an event.
 {% enddocs %}
 
+{% docs heat_id %}
+The ID number of the heat.
+{% enddocs %}
+
+{% docs lane_number %}
+The lane number of the athlete for the heat.
+{% enddocs %}
+
 {% docs meet_name %}
 The name of the meet.
 {% enddocs %}

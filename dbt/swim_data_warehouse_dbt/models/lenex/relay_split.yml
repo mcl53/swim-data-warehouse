@@ -1,13 +1,13 @@
 version: 2
 
 models:
-  - name: split
-    description: Details for a split within a race derived from a LENEX file.
+  - name: relay_split
+    description: Details for a split within a relay race derived from a LENEX file.
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - meet_name
-            - athlete_id
+            - club_code
             - event_id
             - split_distance
     columns:
@@ -16,8 +16,8 @@ models:
         data_tests:
           - not_null
 
-      - name: athlete_id
-        description: '{{ doc("athlete_id") }}'
+      - name: club_code
+        description: '{{ doc("club_code") }}'
         data_tests:
           - not_null
 

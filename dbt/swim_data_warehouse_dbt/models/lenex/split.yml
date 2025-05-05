@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: split
+    description: Details for a split within a race derived from a LENEX file.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - meet_name
+            - athlete_id
+            - event_id
+            - split_distance
+    columns:
+      - name: meet_name
+        description: '{{ doc("meet_name") }}'
+        data_tests:
+          - not_null
+
+      - name: athlete_id
+        description: '{{ doc("athlete_id") }}'
+        data_tests:
+          - not_null
+
+      - name: event_id
+        description: '{{ doc("event_id") }}'
+        data_tests:
+          - not_null
+
+      - name: split_distance
+        description: The distance into the race that the split was taken.
+        data_tests:
+          - not_null
+
+      - name: split_cumulative_time
+        description: The time at the split_distance since the start of the race.

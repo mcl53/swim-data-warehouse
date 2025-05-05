@@ -20,15 +20,46 @@ duck_db_database = utils.connect_to_duckdb(load_folder)
 
 duck_db_database.execute(f"""
     ATTACH 'host=localhost dbname=swim_data user={postgres_user} password={postgres_password}' AS postgres_db (TYPE POSTGRES);
+""")
 
-    DROP SCHEMA IF EXISTS postgres_db.raw           CASCADE;
-    DROP SCHEMA IF EXISTS postgres_db.swim_data     CASCADE;
-    DROP SCHEMA IF EXISTS postgres_db.swim_data_isl CASCADE;
+pg_schemas = duck_db_database.execute(f"""
+    SELECT
+        schema_name
+    FROM
+        information_schema.schemata
+    WHERE
+        catalog_name = 'postgres_db'
+    AND schema_name NOT IN (
+            'information_schema',
+            'pg_catalog',
+            'pg_toast',
+            'public'
+        );
+""").fetchall()
 
-    CREATE SCHEMA postgres_db.raw;
-    CREATE SCHEMA postgres_db.swim_data;
-    CREATE SCHEMA postgres_db.swim_data_isl;
+duckdb_schemas = duck_db_database.execute(f"""
+    SELECT
+        schema_name
+    FROM
+        information_schema.schemata
+    WHERE
+        catalog_name = 'swim_data'
+    AND schema_name NOT IN (
+            'main'
+        );
+""").fetchall()
 
+for schema in pg_schemas:
+    duck_db_database.execute(f"""
+        DROP SCHEMA postgres_db.{schema[0]} CASCADE;
+    """)
+
+for schema in duckdb_schemas:
+    duck_db_database.execute(f"""
+        CREATE SCHEMA postgres_db.{schema[0]};
+    """)
+
+duck_db_database.execute(f"""
     COPY FROM DATABASE swim_data TO postgres_db (SCHEMA);
 """)
 

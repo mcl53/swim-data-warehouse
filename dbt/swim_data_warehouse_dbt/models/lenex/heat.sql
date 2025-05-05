@@ -13,34 +13,34 @@ WITH event AS (
     -- with only one heat are not in an array.
     -- Here these are split up and arrays unnested so that we end up with one heat per row.
     SELECT
-        meet_name,
-        session_number,
-        event_id,
+        meet_name                            AS meet_name,
+        session_number                       AS session_number,
+        event_id                             AS event_id,
         UNNEST(CAST((heats.HEAT) AS JSON[])) AS heat
     FROM
-        swim_data.swim_data.event
+        event
     WHERE
         json_type(heats.HEAT) = 'ARRAY'
 
     UNION ALL
 
     SELECT
-        meet_name,
-        session_number,
-        event_id,
-        heats.HEAT AS heat
+        meet_name      AS meet_name,
+        session_number AS session_number,
+        event_id       AS event_id,
+        heats.HEAT     AS heat
     FROM
-        swim_data.swim_data.event
+        event
     WHERE
         json_type(heats.HEAT) = 'OBJECT'
 )
 
 SELECT
-    meet_name                     AS meet_name,
-    session_number                AS session_number,
-    event_id                      AS event_id,
-    CAST(heat->>'@heatid' AS INT) AS heat_id,
-    CAST(heat->>'@number' AS INT) AS event_heat_number,
-    heat->>'@daytime'             AS heat_start_time
+    meet_name                       AS meet_name,
+    session_number                  AS session_number,
+    event_id                        AS event_id,
+    CAST(heat->>'@heatid'  AS INT ) AS heat_id,
+    CAST(heat->>'@number'  AS INT ) AS event_heat_number,
+    CAST(heat->>'@daytime' AS TIME) AS heat_start_time
 FROM
     heat_json

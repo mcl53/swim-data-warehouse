@@ -1,0 +1,51 @@
+version: 2
+
+models:
+  - name: athlete
+    description: Details for an athlete representing a club derived from a LENEX file.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - meet_name
+            - athlete_id
+    columns:
+      - name: meet_name
+        description: '{{ doc("meet_name") }}'
+        data_tests:
+          - not_null
+
+      - name: club_code
+        description: '{{ doc("club_code") }}'
+        data_tests:
+          - not_null
+
+      - name: athlete_id
+        description: '{{ doc("athlete_id") }}'
+        data_tests:
+          - not_null
+
+      - name: first_name
+        description: The first name of the athlete.
+        data_tests:
+          - not_null
+
+      - name: last_name
+        description: The last name of the athlete.
+        data_tests:
+          - not_null
+
+      - name: date_of_birth
+        description: The date of birth of the athlete.
+        data_tests:
+          - not_null
+
+      - name: sex
+        description: The sex of the athlete.
+        data_tests:
+          - not_null
+
+      - name: entries
+        description: JSON data on the entries for the athlete.
+
+      - name: results
+        description: JSON data on the results for the athlete.

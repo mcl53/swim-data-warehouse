@@ -1,0 +1,46 @@
+version: 2
+
+models:
+  - name: club
+    description: Details for a club at a swimming meet derived from a LENEX file.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - meet_name
+            - club_code
+    columns:
+      - name: meet_name
+        description: '{{ doc("meet_name") }}'
+        data_tests:
+          - not_null
+
+      - name: club_name
+        description: The name of the club.
+        data_tests:
+          - not_null
+
+      - name: club_short_name
+        description: The short name of the club.
+        data_tests:
+          - not_null
+
+      - name: club_code
+        description: '{{ doc("club_code") }}'
+        data_tests:
+          - not_null
+
+      - name: club_nation
+        description: The nation of the club.
+        data_tests:
+          - not_null
+
+      - name: club_type
+        description: The type of club.
+        data_tests:
+          - not_null
+
+      - name: athletes
+        description: JSON data on the athletes that competed for the club at the meet.
+
+      - name: relays
+        description: JSON data on the relay teams that competed for the club at the meet.

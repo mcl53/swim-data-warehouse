@@ -1,0 +1,38 @@
+version: 2
+
+models:
+  - name: entry
+    description: Details for an entry of an athlete at a swimming meet derived from a LENEX file.
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - meet_name
+            - athlete_id
+            - event_id
+    columns:
+      - name: meet_name
+        description: '{{ doc("meet_name") }}'
+        data_tests:
+          - not_null
+
+      - name: athlete_id
+        description: '{{ doc("athlete_id") }}'
+        data_tests:
+          - not_null
+
+      - name: event_id
+        description: '{{ doc("event_id") }}'
+        data_tests:
+          - not_null
+
+      - name: event_heat_number
+        description: '{{ doc("event_heat_number") }}'
+
+      - name: lane_number
+        description: The lane number of the athlete for the heat.
+
+      - name: entry_time
+        description: The entry time for the athlete in the event.
+
+      - name: entry_time_swam_date
+        description: The date that the entry time was achieved by the athlete.

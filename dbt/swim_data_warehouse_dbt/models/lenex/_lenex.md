@@ -6,6 +6,10 @@ The ID number for the athlete. The same ID is not used for the same athlete acro
 The code for the club. Unique across different meets.
 {% enddocs %}
 
+{% docs event_heat_number %}
+The heat number within the event.
+{% enddocs %}
+
 {% docs event_id %}
 The ID number of the event. This is unique per round of an event.
 {% enddocs %}

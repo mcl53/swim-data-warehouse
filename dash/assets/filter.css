@@ -12,13 +12,13 @@ h1, h2 {
 
 #whole-screen {
     width: 100vw;
-    max-height: 100vh;
+    height: 100vh;
 }
 
 #main-content {
     display: flex;
     justify-content: center;
-    max-height: calc(100% - 1em - 60px);
+    height: calc(100% - 1em - 60px);
 }
 
 .filter-dropdown, .filter-header {
@@ -33,7 +33,7 @@ h1, h2 {
 
 #results-table {
     flex: 3;
-    height: 100%;
+    min-height: 100%;
     width: 100%;
     max-width: 60vw;
 }

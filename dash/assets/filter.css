@@ -1,0 +1,75 @@
+body {
+    margin: 0;
+}
+
+h1, h2 {
+    text-align: center;
+    font-family: sans-serif;
+    margin: 0;
+    padding: 20px;
+    height: 1em;
+}
+
+#whole-screen {
+    width: 100vw;
+    max-height: 100vh;
+}
+
+#main-content {
+    display: flex;
+    justify-content: center;
+    max-height: calc(100% - 1em - 60px);
+}
+
+.filter-dropdown, .filter-header {
+    min-width: 200px;
+    max-width: 75%;
+    margin: auto;
+}
+
+#filter-pane {
+    flex: 1;
+}
+
+#results-table {
+    flex: 3;
+    height: 100%;
+    width: 100%;
+    max-width: 60vw;
+}
+
+#results-detail {
+    flex: 1;
+}
+
+.dash-spreadsheet.dash-freeze-top, .dash-spreadsheet.dash-virtualized {
+    max-height: 100%;
+}
+
+[data-dash-column="Place"] {
+    width: 60px;
+}
+
+[data-dash-column="Athlete"] {
+    width: 180px;
+}
+
+[data-dash-column="Time"] {
+    width: 90px;
+}
+
+[data-dash-column="Reaction Time"] {
+    width: 130px;
+}
+
+[data-dash-column="Points"] {
+    width: 70px;
+}
+
+[data-dash-column="Club"] {
+    width: 150px;
+}
+
+[data-dash-column="Meet"] {
+    width: 200px;
+}

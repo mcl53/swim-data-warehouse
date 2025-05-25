@@ -1,4 +1,3 @@
-import datetime
 import os
 import sys
 
@@ -8,7 +7,7 @@ import pandas
 from pypdf import PdfReader
 import xmltodict
 
-import utils
+import db_utils
 
 # Unpack script arguments
 load_folder = sys.argv[1]
@@ -18,7 +17,7 @@ source_data_directory = os.environ.get("SOURCE_DATA_DIRECTORY")
 if source_data_directory is None:
     raise KeyError("No environment variable set for 'SOURCE_DATA_DIRECTORY'")
 
-database = utils.connect_to_duckdb(load_folder)
+database = db_utils.connect_to_duckdb(load_folder)
 
 database.execute("""
     DROP SCHEMA IF EXISTS raw CASCADE;

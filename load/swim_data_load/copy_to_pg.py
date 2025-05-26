@@ -1,7 +1,7 @@
-import utils
-
 import os
 import sys
+
+import db_utils
 
 load_folder = sys.argv[1]
 
@@ -16,7 +16,7 @@ if postgres_password is None:
 
 csv_out_directory = os.path.join(load_folder, '..', 'data', 'csv')
 
-duck_db_database = utils.connect_to_duckdb(load_folder)
+duck_db_database = db_utils.connect_to_duckdb(load_folder)
 
 duck_db_database.execute(f"""
     ATTACH 'host=localhost dbname=swim_data user={postgres_user} password={postgres_password}' AS postgres_db (TYPE POSTGRES);

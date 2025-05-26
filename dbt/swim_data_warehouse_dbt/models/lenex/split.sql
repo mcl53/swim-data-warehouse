@@ -11,6 +11,8 @@ WITH result AS (
 , split_json AS (
     SELECT
         meet_name                            AS meet_name,
+        meet_city                            AS meet_city,
+        meet_year                            AS meet_year,
         athlete_id                           AS athlete_id,
         event_id                             AS event_id,
         UNNEST(CAST(splits.SPLIT AS JSON[])) AS split
@@ -23,6 +25,8 @@ WITH result AS (
 
     SELECT
         meet_name    AS meet_name,
+        meet_city    AS meet_city,
+        meet_year    AS meet_year,
         athlete_id   AS athlete_id,
         event_id     AS event_id,
         splits.SPLIT AS split
@@ -34,6 +38,8 @@ WITH result AS (
 
 SELECT
     meet_name                        AS meet_name,
+    meet_city                        AS meet_city,
+    meet_year                        AS meet_year,
     athlete_id                       AS athlete_id,
     event_id                         AS event_id,
     CAST(split->>'@distance' AS INT) AS split_distance,

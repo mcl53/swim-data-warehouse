@@ -11,6 +11,8 @@ WITH meet AS (
 , session_json AS (
     SELECT
         meet_name                                AS meet_name,
+        meet_city                                AS meet_city,
+        meet_year                                AS meet_year,
         UNNEST(CAST(sessions.SESSION AS JSON[])) AS session
     FROM
         meet
@@ -18,6 +20,8 @@ WITH meet AS (
 
 SELECT
     meet_name                                   AS meet_name,
+    meet_city                                   AS meet_city,
+    meet_year                                   AS meet_year,
     CAST(session->>'@date'         AS DATE)     AS session_date,
     CAST(session->>'@daytime'      AS TIME)     AS session_start_time,
     CAST(session->>'@number'       AS INT )     AS session_number,

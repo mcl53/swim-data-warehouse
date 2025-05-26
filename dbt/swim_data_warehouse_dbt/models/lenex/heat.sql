@@ -14,6 +14,8 @@ WITH event AS (
     -- Here these are split up and arrays unnested so that we end up with one heat per row.
     SELECT
         meet_name                            AS meet_name,
+        meet_city                            AS meet_city,
+        meet_year                            AS meet_year,
         session_number                       AS session_number,
         event_id                             AS event_id,
         UNNEST(CAST((heats.HEAT) AS JSON[])) AS heat
@@ -26,6 +28,8 @@ WITH event AS (
 
     SELECT
         meet_name      AS meet_name,
+        meet_city      AS meet_city,
+        meet_year      AS meet_year,
         session_number AS session_number,
         event_id       AS event_id,
         heats.HEAT     AS heat
@@ -37,6 +41,8 @@ WITH event AS (
 
 SELECT
     meet_name                       AS meet_name,
+    meet_city                       AS meet_city,
+    meet_year                       AS meet_year,
     session_number                  AS session_number,
     event_id                        AS event_id,
     CAST(heat->>'@heatid'  AS INT ) AS heat_id,

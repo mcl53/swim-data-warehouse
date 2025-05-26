@@ -11,6 +11,8 @@ WITH club AS (
 , relay_json AS (
     SELECT
         meet_name                            AS meet_name,
+        meet_city                            AS meet_city,
+        meet_year                            AS meet_year,
         club_code                            AS club_code,
         UNNEST(CAST(relays.RELAY AS JSON[])) AS relay
     FROM
@@ -22,6 +24,8 @@ WITH club AS (
 
     SELECT
         meet_name    AS meet_name,
+        meet_city    AS meet_city,
+        meet_year    AS meet_year,
         club_code    AS club_code,
         relays.RELAY AS relay
     FROM
@@ -33,6 +37,8 @@ WITH club AS (
 , relay_result_json AS (
     SELECT
         meet_name                                    AS meet_name,
+        meet_city                                    AS meet_city,
+        meet_year                                    AS meet_year,
         club_code                                    AS club_code,
         relay                                        AS relay,
         UNNEST(CAST(relay.RESULTS.RESULT AS JSON[])) AS result
@@ -45,6 +51,8 @@ WITH club AS (
 
     SELECT
         meet_name            AS meet_name,
+        meet_city            AS meet_city,
+        meet_year            AS meet_year,
         club_code            AS club_code,
         relay                AS relay,
         relay.RESULTS.RESULT AS result
@@ -56,6 +64,8 @@ WITH club AS (
 
 SELECT
     meet_name                           AS meet_name,
+    meet_city                           AS meet_city,
+    meet_year                           AS meet_year,
     club_code                           AS club_code,
     CAST(result->>'@eventid'    AS INT) AS event_id,
     relay->>'@name'                     AS club_name,

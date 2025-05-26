@@ -11,6 +11,8 @@ WITH athlete AS (
 , result_json AS (
     SELECT
         meet_name                              AS meet_name,
+        meet_city                              AS meet_city,
+        meet_year                              AS meet_year,
         athlete_id                             AS athlete_id,
         UNNEST(CAST(results.RESULT AS JSON[])) AS result
     FROM
@@ -22,6 +24,8 @@ WITH athlete AS (
 
     SELECT
         meet_name      AS meet_name,
+        meet_city      AS meet_city,
+        meet_year      AS meet_year,
         athlete_id     AS athlete_id,
         results.RESULT AS result
     FROM
@@ -32,6 +36,8 @@ WITH athlete AS (
 
 SELECT
     meet_name                                 AS meet_name,
+    meet_city                                 AS meet_city,
+    meet_year                                 AS meet_year,
     athlete_id                                AS athlete_id,
     CAST(result->>'@eventid'          AS INT) AS event_id,
     CAST(result->>'@place'            AS INT) AS event_place,

@@ -11,6 +11,8 @@ WITH relay_result AS (
 , relay_position_json AS (
     SELECT
         meet_name                                             AS meet_name,
+        meet_city                                             AS meet_city,
+        meet_year                                             AS meet_year,
         club_code                                             AS club_code,
         event_id                                              AS event_id,
         UNNEST(CAST(relay_positions.RELAYPOSITION AS JSON[])) AS relay_position
@@ -20,6 +22,8 @@ WITH relay_result AS (
 
 SELECT
     meet_name                                         AS meet_name,
+    meet_city                                         AS meet_city,
+    meet_year                                         AS meet_year,
     club_code                                         AS club_code,
     event_id                                          AS event_id,
     CAST(relay_position->>'@athleteid'        AS INT) AS athlete_id,

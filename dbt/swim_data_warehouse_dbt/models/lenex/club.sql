@@ -11,6 +11,8 @@ WITH meet AS (
 , club_json AS (
     SELECT
         meet_name                          AS meet_name,
+        meet_city                          AS meet_city,
+        meet_year                          AS meet_year,
         UNNEST(CAST(clubs.CLUB AS JSON[])) AS club
     FROM
         meet
@@ -18,6 +20,8 @@ WITH meet AS (
 
 SELECT
     meet_name           AS meet_name,
+    meet_city           AS meet_city,
+    meet_year           AS meet_year,
     club->>'@name'      AS club_name,
     club->>'@shortname' AS club_short_name,
     club->>'@code'      AS club_code,

@@ -35,8 +35,16 @@ The ID number of the heat.
 The lane number of the athlete for the heat.
 {% enddocs %}
 
+{% docs meet_city %}
+The city the meet was held in.
+{% enddocs %}
+
 {% docs meet_name %}
 The name of the meet.
+{% enddocs %}
+
+{% docs meet_year %}
+The year the meet was held in.
 {% enddocs %}
 
 {% docs reaction_time %}

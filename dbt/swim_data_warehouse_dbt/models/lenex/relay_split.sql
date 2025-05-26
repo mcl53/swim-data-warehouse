@@ -11,6 +11,8 @@ WITH relay_result AS (
 , split_json AS (
     SELECT
         meet_name                            AS meet_name,
+        meet_city                            AS meet_city,
+        meet_year                            AS meet_year,
         club_code                            AS club_code,
         event_id                             AS event_id,
         UNNEST(CAST(splits.SPLIT AS JSON[])) AS split
@@ -20,6 +22,8 @@ WITH relay_result AS (
 
 SELECT
     meet_name           AS meet_name,
+    meet_city           AS meet_city,
+    meet_year           AS meet_year,
     club_code           AS club_code,
     event_id            AS event_id,
     split->>'@distance' AS split_distance,

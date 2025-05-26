@@ -7,12 +7,24 @@ models:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - meet_name
+            - meet_city
+            - meet_year
             - session_number
             - event_id
             - heat_id
     columns:
       - name: meet_name
         description: '{{ doc("meet_name") }}'
+        data_tests:
+          - not_null
+
+      - name: meet_city
+        description: '{{ doc("meet_city") }}'
+        data_tests:
+          - not_null
+
+      - name: meet_year
+        description: '{{ doc("meet_year") }}'
         data_tests:
           - not_null
 

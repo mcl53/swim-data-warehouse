@@ -169,23 +169,29 @@ def update_graph(event, sex):
                 ) AS "Reaction Time",
                 r.fina_points AS Points,
                 c.club_name AS Club,
-                r.meet_name AS Meet
+                CONCAT(r.meet_name, ', ', r.meet_city, ', ', r.meet_year) AS Meet
             FROM
                 swim_data_lenex.result r
             INNER JOIN
                 swim_data_lenex.athlete a
             ON
                 r.meet_name = a.meet_name
+            AND r.meet_city = a.meet_city
+            AND r.meet_year = a.meet_year
             AND r.athlete_id = a.athlete_id
             INNER JOIN
                 swim_data_lenex.club c
             ON
                 a.meet_name = c.meet_name
+            AND a.meet_city = c.meet_city
+            AND a.meet_year = c.meet_year
             AND a.club_code = c.club_code
             INNER JOIN
                 swim_data_lenex.event e
             ON
                 r.meet_name = e.meet_name
+            AND r.meet_city = e.meet_city
+            AND r.meet_year = e.meet_year
             AND r.event_id = e.event_id
             WHERE
                 CONCAT(e.distance, ' ', e.stroke) = '{event}'

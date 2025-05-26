@@ -11,6 +11,8 @@ WITH athlete AS (
 , entry_json AS (
     SELECT
         meet_name                             AS meet_name,
+        meet_city                             AS meet_city,
+        meet_year                             AS meet_year,
         athlete_id                            AS athlete_id,
         UNNEST(CAST(entries.ENTRY AS JSON[])) AS entry
     FROM
@@ -22,6 +24,8 @@ WITH athlete AS (
 
     SELECT
         meet_name     AS meet_name,
+        meet_city     AS meet_city,
+        meet_year     AS meet_year,
         athlete_id    AS athlete_id,
         entries.ENTRY AS entry
     FROM
@@ -32,6 +36,8 @@ WITH athlete AS (
 
 SELECT
     meet_name                                 AS meet_name,
+    meet_city                                 AS meet_city,
+    meet_year                                 AS meet_year,
     athlete_id                                AS athlete_id,
     CAST(entry->>'@eventid'          AS INT ) AS event_id,
     CAST(entry->>'@heat'             AS INT ) AS event_heat_number,

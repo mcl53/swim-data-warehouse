@@ -11,6 +11,8 @@ WITH session AS (
 , event_json AS (
     SELECT
         meet_name                                    AS meet_name,
+        meet_city                                    AS meet_city,
+        meet_year                                    AS meet_year,
         session_number                               AS session_number,
         UNNEST(CAST(session_events.EVENT AS JSON[])) AS event
     FROM
@@ -19,6 +21,8 @@ WITH session AS (
 
 SELECT
     meet_name                                     AS meet_name,
+    meet_city                                     AS meet_city,
+    meet_year                                     AS meet_year,
     session_number                                AS session_number,
     CAST(event->>'@eventid'              AS INT ) AS event_id,
     CAST(event->>'@number'               AS INT ) AS event_number,

@@ -3,20 +3,25 @@ version: 2
 models:
   - name: meet
     description: Details for a swimming meet derived from a LENEX file.
+    data_test:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - meet_name
+            - meet_city
+            - meet_year
     columns:
-      - name: file_name
-        description: '{{ doc("file_name") }}'
-        data_tests:
-          - unique
-          - not_null
-
       - name: meet_name
         description: '{{ doc("meet_name") }}'
         data_tests:
           - not_null
 
       - name: meet_city
-        description: The city the meet was held in.
+        description: '{{ doc("meet_city") }}'
+        data_tests:
+          - not_null
+
+      - name: meet_year
+        description: '{{ doc("meet_year") }}'
         data_tests:
           - not_null
 

@@ -66,13 +66,6 @@ app.layout = [
                                 event_types,
                                 id="event-selection",
                                 className="filter-dropdown",
-                                style={
-                                    "font-family": "sans-serif",
-                                    "font-size": "20px",
-                                    "text-align": "center",
-                                    "margin-top": "10px",
-                                    "margin-bottom": "10px",
-                                },
                                 searchable=False,
                                 clearable=False,
                                 placeholder="Select event",
@@ -87,13 +80,6 @@ app.layout = [
                                 sexes,
                                 id="sex-selection",
                                 className="filter-dropdown",
-                                style={
-                                    "font-family": "sans-serif",
-                                    "font-size": "20px",
-                                    "text-align": "center",
-                                    "margin-top": "10px",
-                                    "margin-bottom": "10px",
-                                },
                                 searchable=False,
                                 clearable=False,
                                 placeholder="Select sex",
@@ -112,71 +98,12 @@ app.layout = [
                             {"field": "Club"         },
                             {"field": "Meet"         },
                         ],
+                        # Set style on the element itself rather than CSS file as we want to overwrite the default
+                        # height: 400px that is set on the element by the framework.
+                        style={
+                            "height": "auto",
+                        }
                     ),
-
-                    # dash_table.DataTable(
-                    #     columns=[
-                    #         {"name": "Place"        , "id": "Place"        },
-                    #         {"name": "Athlete"      , "id": "Athlete"      },
-                    #         {"name": "Time"         , "id": "Time"         },
-                    #         {"name": "Reaction Time", "id": "Reaction Time"},
-                    #         {"name": "Points"       , "id": "Points"       },
-                    #         {"name": "Club"         , "id": "Club"         },
-                    #         {"name": "Meet"         , "id": "Meet"         },
-                    #     ],
-                    #     id="results-table",
-                    #     style_header={
-                    #         "backgroundColor": "rgb(220, 220, 220)",
-                    #         "fontWeight": "bold",
-                    #         "fontSize": "17px",
-                    #     },
-                    #     style_cell={
-                    #         "font-family": "sans-serif",
-                    #         "textAlign": "center",
-                    #     },
-                    #     style_cell_conditional=[
-                    #         {
-                    #             "if": {"column_id": "Place"},
-                    #             "width": "60px",
-                    #         },
-                    #         {
-                    #             "if": {"column_id": "Athlete"},
-                    #             "width": "180px",
-                    #         },
-                    #         {
-                    #             "if": {"column_id": "Time"},
-                    #             "width": "90px",
-                    #         },
-                    #         {
-                    #             "if": {"column_id": "Reaction Time"},
-                    #             "width": "130px",
-                    #         },
-                    #         {
-                    #             "if": {"column_id": "Points"},
-                    #             "width": "70px",
-                    #         },
-                    #         {
-                    #             "if": {"column_id": "Club"},
-                    #             "width": "150px",
-                    #         },
-                    #         {
-                    #             "if": {"column_id": "Meet"},
-                    #             "width": "200px",
-                    #         },
-                    #     ],
-                    #     style_data_conditional=[
-                    #         {
-                    #             "if": {"row_index": "odd"},
-                    #             "backgroundColor": "rgb(230, 230, 230)"
-                    #         }
-                    #     ],
-                    #     style_as_list_view=True,
-                    #     page_size=1000,
-                    #     fixed_rows={
-                    #         "headers": True,
-                    #     },
-                    #     cell_selectable=False,
-                    # ),
 
                     html.Div(
                         id="results-detail",
@@ -269,5 +196,6 @@ def update_graph(event, sex):
         """).df()
 
     return df.to_dict('records')
+
 
 app.run(debug=True)

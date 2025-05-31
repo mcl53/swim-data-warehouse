@@ -21,8 +21,8 @@ h1, h2 {
 }
 
 .filter-dropdown {
-    padding-left: 25px;
-    padding-right: 25px;
+    margin-left: 25px;
+    margin-right: 25px;
     font-size: 20px;
     text-align: center;
     margin-top: 10px;
@@ -69,4 +69,20 @@ h1, h2 {
     #results-detail {
         display: none;
     }
+
+    .ag-header-cell-label {
+        justify-content: center;
+    }
+
+    .ag-cell-value {
+        text-align: center;
+    }
+}
+
+.ag-header-cell-label {
+    justify-content: center;
+}
+
+.ag-cell-value {
+    text-align: center;
 }

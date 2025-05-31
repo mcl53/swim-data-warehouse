@@ -89,19 +89,27 @@ app.layout = [
 
                     dash_ag_grid.AgGrid(
                         id="results-table",
+                        defaultColDef={
+                            "resizable": False,
+                        },
+                        # columnSize="responsiveSizeToFit",
                         columnDefs=[
-                            {"field": "Place"        },
-                            {"field": "Athlete"      },
-                            {"field": "Time"         },
-                            {"field": "Reaction Time"},
-                            {"field": "Points"       },
-                            {"field": "Club"         },
-                            {"field": "Meet"         },
+                            {"field": "Place"        , "width": "127px"},
+                            {"field": "Athlete"      , "width": "355px"},
+                            {"field": "Time"         , "width": "160px"},
+                            {"field": "Reaction Time", "width": "160px"},
+                            {"field": "Points"       , "width": "150px"},
+                            {"field": "Club"         , "width": "240px"},
+                            {"field": "Meet"         , "width": "325px"},
                         ],
                         # Set style on the element itself rather than CSS file as we want to overwrite the default
                         # height: 400px that is set on the element by the framework.
                         style={
                             "height": "auto",
+                        },
+                        dashGridOptions={
+                            "rowSelection": "single",
+                            "suppressCellFocus": True,
                         }
                     ),
 

@@ -56,7 +56,7 @@ SELECT
     CAST(result->>'@points'           AS INT) AS fina_points,
     result->>'@status'                        AS status,
     CAST(result->>'@heatid'           AS INT) AS heat_id,
-    CAST(result->>'@heat'             AS INT) AS event_heat_number,
+    result->>'@heat'                          AS event_heat_number,
     CAST(result->>'@lane'             AS INT) AS lane_number,
     result.SPLITS                             AS splits
 FROM

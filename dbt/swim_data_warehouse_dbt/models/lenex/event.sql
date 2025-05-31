@@ -29,7 +29,19 @@ SELECT
     CAST(event->>'@preveventid'          AS INT ) AS previous_event_id,
     event->>'@gender'                             AS sex,
     event->>'@round'                              AS event_round,
-    CAST(event->>'@daytime'              AS TIME) AS event_start_time,
+    CAST(
+        CASE
+            WHEN NOT CONTAINS(event->>'@daytime', ':')
+                THEN
+                    CONCAT(
+                        LEFT(event->>'@daytime', 2),
+                        ':',
+                        RIGHT(event->>'@daytime', 2)
+                    )
+            ELSE    event->>'@daytime'
+        END
+        AS TIME
+    )                                             AS event_start_time,
     CAST(event.SWIMSTYLE->>'@distance'   AS INT ) AS distance,
     CAST(event.SWIMSTYLE->>'@relaycount' AS INT ) AS event_team_size,
     event.SWIMSTYLE->>'@stroke'                   AS stroke,

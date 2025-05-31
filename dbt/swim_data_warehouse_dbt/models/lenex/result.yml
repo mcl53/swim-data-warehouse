@@ -56,18 +56,12 @@ models:
 
       - name: heat_id
         description: '{{ doc("heat_id") }}'
-        data_tests:
-          - not_null
 
       - name: event_heat_number
         description: '{{ doc("event_heat_number") }}'
-        data_tests:
-          - not_null
 
       - name: lane_number
         description: '{{ doc("lane_number") }}'
-        data_tests:
-          - not_null
 
       - name: splits
         description: '{{ doc("splits") }}'

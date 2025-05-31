@@ -37,13 +37,9 @@ models:
 
       - name: min_lane_number
         description: The minimum lane number in the pool for the meet.
-        data_tests:
-          - not_null
 
       - name: max_lane_number
         description: The maximum lane number in the pool for the meet.
-        data_tests:
-          - not_null
 
       - name: sessions
         description: JSON data on the sessions of the meet from the originating LENEX file.

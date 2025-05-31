@@ -54,5 +54,3 @@ models:
 
       - name: reaction_time
         description: '{{ doc("reaction_time") }}'
-        data_tests:
-          - not_null

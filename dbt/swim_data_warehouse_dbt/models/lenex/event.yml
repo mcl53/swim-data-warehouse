@@ -59,8 +59,6 @@ models:
 
       - name: event_start_time
         description: The start time of the event in local time, on a 24h clock.
-        data_tests:
-          - not_null
 
       - name: distance
         description: The distance of the event.

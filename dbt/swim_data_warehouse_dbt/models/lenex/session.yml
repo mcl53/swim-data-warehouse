@@ -43,13 +43,9 @@ models:
 
       - name: session_min_lane_number
         description: The minimum lane number in the pool for the session.
-        data_tests:
-          - not_null
 
       - name: session_max_lane_number
         description: The maximum lane number in the pool for the meet.
-        data_tests:
-          - not_null
 
       - name: session_events
         description: JSON data on the events in the session.

@@ -4,7 +4,7 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/swim_data_venv" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.13 (swim-data-warehouse)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="uv (swim-data-warehouse)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyDocumentationSettings">

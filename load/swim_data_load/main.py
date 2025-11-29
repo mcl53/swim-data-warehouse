@@ -9,22 +9,20 @@ import xmltodict
 
 import db_utils
 
-# Unpack script arguments
-load_folder = sys.argv[1]
-
 # Load environment variables
+root_directory = os.environ.get("ROOT_DIRECTORY")
 source_data_directory = os.environ.get("SOURCE_DATA_DIRECTORY")
 if source_data_directory is None:
     raise KeyError("No environment variable set for 'SOURCE_DATA_DIRECTORY'")
 
-database = db_utils.connect_to_duckdb(load_folder)
+database = db_utils.connect_to_duckdb(root_directory)
 
 database.execute("""
     DROP SCHEMA IF EXISTS raw CASCADE;
     CREATE SCHEMA raw;
 """)
 
-table_defs_folder = os.path.join(load_folder, "table_definitions")
+table_defs_folder = os.path.join(root_directory, "load", "table_definitions")
 for table_def_file in os.scandir(table_defs_folder):
     with open(table_def_file.path) as table_def:
         table_def_stmt = table_def.read()

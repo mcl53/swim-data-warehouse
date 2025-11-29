@@ -6,7 +6,7 @@ import dash_ag_grid
 import duckdb
 
 # Unpack script arguments
-project_root_dir = sys.argv[1]
+project_root_dir = os.environ.get("ROOT_DIRECTORY")
 
 database_directory = os.path.join(project_root_dir, "data", "swim_data.duckdb")
 with duckdb.connect(database=database_directory) as database:
@@ -17,7 +17,7 @@ with duckdb.connect(database=database_directory) as database:
                 stroke,
                 distance
             FROM
-                swim_data_lenex.event
+                lenex.event
         )
         SELECT
             event_type,
@@ -36,7 +36,7 @@ with duckdb.connect(database=database_directory) as database:
         SELECT DISTINCT
             sex
         FROM
-            swim_data_lenex.athlete
+            lenex.athlete
         ORDER BY
             sex ASC;
     """).df().sex
@@ -179,23 +179,23 @@ def update_graph(event, sex):
                 c.club_name AS Club,
                 CONCAT(r.meet_name, ', ', r.meet_city, ', ', r.meet_year) AS Meet
             FROM
-                swim_data_lenex.result r
+                lenex.result r
             INNER JOIN
-                swim_data_lenex.athlete a
+                lenex.athlete a
             ON
                 r.meet_name = a.meet_name
             AND r.meet_city = a.meet_city
             AND r.meet_year = a.meet_year
             AND r.athlete_id = a.athlete_id
             INNER JOIN
-                swim_data_lenex.club c
+                lenex.club c
             ON
                 a.meet_name = c.meet_name
             AND a.meet_city = c.meet_city
             AND a.meet_year = c.meet_year
             AND a.club_code = c.club_code
             INNER JOIN
-                swim_data_lenex.event e
+                lenex.event e
             ON
                 r.meet_name = e.meet_name
             AND r.meet_city = e.meet_city

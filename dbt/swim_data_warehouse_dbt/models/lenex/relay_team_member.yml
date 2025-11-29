@@ -6,13 +6,14 @@ models:
       Details for an individual member of a relay team representing a club derived from a LENEX file.
     data_tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - meet_name
-            - meet_city
-            - meet_year
-            - club_code
-            - event_id
-            - athlete_id
+          arguments:
+            combination_of_columns:
+              - meet_name
+              - meet_city
+              - meet_year
+              - club_code
+              - event_id
+              - athlete_id
     columns:
       - name: meet_name
         description: '{{ doc("meet_name") }}'

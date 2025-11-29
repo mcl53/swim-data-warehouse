@@ -5,9 +5,10 @@ models:
     description: The event information for each page per file
     data_tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - file_name
-            - page_number
+          arguments:
+            combination_of_columns:
+              - file_name
+              - page_number
     columns:
       - name: file_name
         description: '{{ doc("file_name") }}'
@@ -24,44 +25,48 @@ models:
         data_tests:
           - not_null
           - accepted_values:
-              values:
-                - Women
-                - Men
-                - Mixed
+              arguments:
+                values:
+                  - Women
+                  - Men
+                  - Mixed
 
       - name: distance
         description: The distance of the event
         data_tests:
           - not_null
           - accepted_values:
-              values:
-                - 50m
-                - 100m
-                - 200m
-                - 400m
-                - 4x100m
+              arguments:
+                values:
+                  - 50m
+                  - 100m
+                  - 200m
+                  - 400m
+                  - 4x100m
 
       - name: stroke
         description: The stroke for the event
         data_tests:
           - not_null
           - accepted_values:
-              values:
-                - Backstroke
-                - Breaststroke
-                - Butterfly
-                - Freestyle
-                - Freestyle Relay
-                - Freestyle Skin Race
-                - Individual Medley
-                - Medley Relay
+              arguments:
+                values:
+                  - Backstroke
+                  - Breaststroke
+                  - Butterfly
+                  - Freestyle
+                  - Freestyle Relay
+                  - Freestyle Skin Race
+                  - Individual Medley
+                  - Medley Relay
 
       - name: round
         description: The round of the event
         data_tests:
           - not_null
           - accepted_values:
-              values:
-                - Round 1
-                - Round 2
-                - Final
+              arguments:
+                values:
+                  - Round 1
+                  - Round 2
+                  - Final

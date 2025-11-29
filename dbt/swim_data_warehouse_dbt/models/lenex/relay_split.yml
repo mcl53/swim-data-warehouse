@@ -5,13 +5,14 @@ models:
     description: Details for a split within a relay race derived from a LENEX file.
     data_tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - meet_name
-            - meet_city
-            - meet_year
-            - club_code
-            - event_id
-            - split_distance
+          arguments:
+            combination_of_columns:
+              - meet_name
+              - meet_city
+              - meet_year
+              - club_code
+              - event_id
+              - split_distance
     columns:
       - name: meet_name
         description: '{{ doc("meet_name") }}'

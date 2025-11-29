@@ -5,9 +5,10 @@ models:
     description: Contains information about an ISL match
     data_tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - season_year
-            - match_start_date
+          arguments:
+            combination_of_columns:
+              - season_year
+              - match_start_date
     columns:
       - name: season_year
         description: '{{ doc("season_year") }}'

@@ -5,10 +5,11 @@ models:
     description: Details for a swimming meet derived from a LENEX file.
     data_test:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - meet_name
-            - meet_city
-            - meet_year
+          arguments:
+            combination_of_columns:
+              - meet_name
+              - meet_city
+              - meet_year
     columns:
       - name: meet_name
         description: '{{ doc("meet_name") }}'

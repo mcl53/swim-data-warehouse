@@ -7,11 +7,12 @@ models:
       Also excludes blank values from the output.
     data_tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - file_name
-            - page_number
-            - line_number
-            - word_number
+          arguments:
+            combination_of_columns:
+              - file_name
+              - page_number
+              - line_number
+              - word_number
     columns:
       - name: file_name
         description: '{{ doc("file_name") }}'

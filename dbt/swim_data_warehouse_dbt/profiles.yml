@@ -1,0 +1,8 @@
+swim_data_warehouse_dbt:
+  outputs:
+    dev:
+      type: duckdb
+      path: "{{ env_var('ROOT_DIRECTORY') }}/data/swim_data.duckdb"
+      threads: 10
+
+  target: dev

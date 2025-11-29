@@ -5,9 +5,10 @@ models:
     description: The event number for each page per file loaded
     data_tests:
       - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - file_name
-            - page_number
+          arguments:
+            combination_of_columns:
+              - file_name
+              - page_number
     columns:
       - name: file_name
         description: '{{ doc("file_name") }}'
